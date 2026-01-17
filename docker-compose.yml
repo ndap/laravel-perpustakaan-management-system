@@ -42,6 +42,15 @@ services:
     networks:
       - laravel
 
+  node:
+    image: node:20
+    container_name: node
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    command: sh -c "tail -f /dev/null"
+
+
   # phpmyadmin:
   #   image: phpmyadmin/phpmyadmin
   #   container_name: laravel-phpmyadmin

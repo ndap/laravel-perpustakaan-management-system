@@ -6,7 +6,7 @@ if docker compose up -d --build; then
     echo -e "\n✅ Environment is running!"
     echo "-----------------------------------"
     echo "📍 Web App: http://localhost"
-    echo "📍 PHPMyAdmin: http://localhost:8080"
+    # echo "📍 PHPMyAdmin: http://localhost:8080"
     echo "-----------------------------------"
 else
     echo -e "\n❌ Terjadi kesalahan saat menjalankan Docker Compose."
