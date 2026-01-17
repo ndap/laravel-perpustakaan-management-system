@@ -1,59 +1,81 @@
 <x-guest-layout>
+    <!-- Page Header -->
     <div class="mb-6 text-center">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Selamat Datang Kembali</h2>
-        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Masuk ke akun BukuHub Anda</p>
+        <h2 class="text-3xl font-bold text-gray-900 mb-2">Selamat Datang Kembali!</h2>
+        <p class="text-gray-600 text-sm">Masuk ke akun BukuHub Anda</p>
     </div>
 
     <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+    <x-auth-session-status class="auth-success-message" :status="session('status')" />
 
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
         <!-- Email or Username -->
-        <div>
-            <x-input-label for="login" :value="__('Email atau Username')" />
-            <x-text-input id="login" class="block mt-1 w-full" type="text" name="login" :value="old('login')" required autofocus autocomplete="username" placeholder="Masukkan email atau username" />
-            <x-input-error :messages="$errors->get('login')" class="mt-2" />
+        <div class="mb-4">
+            <label for="login" class="auth-label">Email / Username</label>
+            <input 
+                id="login" 
+                class="auth-input @error('login') auth-input-error @enderror" 
+                type="text" 
+                name="login" 
+                value="{{ old('login') }}" 
+                required 
+                autofocus 
+                autocomplete="username" 
+                placeholder="Masukkan email atau username"
+            >
+            @error('login')
+                <p class="auth-error-message">{{ $message }}</p>
+            @enderror
         </div>
 
         <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Kata Sandi')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" 
-                            placeholder="Masukkan kata sandi" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <div class="mb-4">
+            <label for="password" class="auth-label">Password</label>
+            <input 
+                id="password" 
+                class="auth-input @error('password') auth-input-error @enderror" 
+                type="password" 
+                name="password" 
+                required 
+                autocomplete="current-password" 
+                placeholder="Masukkan password"
+            >
+            @error('password')
+                <p class="auth-error-message">{{ $message }}</p>
+            @enderror
         </div>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Ingat saya') }}</span>
+        <!-- Remember Me & Forgot Password -->
+        <div class="flex items-center justify-between mb-6">
+            <label for="remember_me" class="inline-flex items-center cursor-pointer">
+                <input 
+                    id="remember_me" 
+                    type="checkbox" 
+                    class="auth-checkbox" 
+                    name="remember"
+                >
+                <span class="ml-2 text-sm text-gray-600">Ingat saya</span>
             </label>
-        </div>
 
-        <div class="flex items-center justify-between mt-6">
             @if (Route::has('password.request'))
-                <a class="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors" href="{{ route('password.request') }}">
-                    {{ __('Lupa kata sandi?') }}
+                <a class="auth-link text-sm" href="{{ route('password.request') }}">
+                    Lupa password?
                 </a>
             @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Masuk') }}
-            </x-primary-button>
         </div>
 
-        <div class="mt-6 text-center">
-            <span class="text-sm text-gray-600 dark:text-gray-400">Belum punya akun?</span>
-            <a class="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors ms-1" href="{{ route('register') }}">
-                {{ __('Daftar sekarang') }}
+        <!-- Login Button -->
+        <button type="submit" class="auth-button-primary mb-6">
+            Masuk
+        </button>
+
+        <!-- Register Link -->
+        <div class="text-center">
+            <span class="text-sm text-gray-600">Belum punya akun?</span>
+            <a class="auth-link text-sm ml-1" href="{{ route('register') }}">
+                Daftar sekarang
             </a>
         </div>
     </form>

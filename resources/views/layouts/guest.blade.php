@@ -13,38 +13,100 @@
 
         <!-- Tailwind CSS CDN -->
         <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            forest: {
+                                50: '#f0fdf4',
+                                100: '#dcfce7',
+                                200: '#bbf7d0',
+                                300: '#86efac',
+                                400: '#4ade80',
+                                500: '#22c55e',
+                                600: '#16a34a',
+                                700: '#15803d',
+                                800: '#166534',
+                                900: '#14532d',
+                                950: '#052e16',
+                            },
+                            primary: {
+                                50: '#ecfdf5',
+                                100: '#d1fae5',
+                                200: '#a7f3d0',
+                                300: '#6ee7b7',
+                                400: '#34d399',
+                                500: '#10b981',
+                                600: '#059669',
+                                700: '#047857',
+                                800: '#065f46',
+                                900: '#064e3b',
+                                950: '#022c22',
+                            },
+                        }
+                    }
+                }
+            }
+        </script>
+        
+        <!-- Auth CSS -->
+        <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+        
         <!-- Alpine.js CDN -->
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
-
-        <style>
-            body {
-                font-family: 'Inter', sans-serif;
-            }
-        </style>
     </head>
-    <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-linear-to-br from-gray-100 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-950">
-            <!-- Logo & Branding -->
-            <div class="mb-4">
-                <a href="/" class="flex flex-col items-center group">
-                    <div class="flex items-center justify-center w-16 h-16 bg-indigo-600 rounded-2xl shadow-lg transform group-hover:scale-105 transition-transform duration-200">
-                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                        </svg>
+    <body class="font-sans antialiased">
+        <div class="auth-split-container">
+            <!-- Left Panel -->
+            <div class="auth-left-panel">
+                <div class="flex-1 flex flex-col items-center justify-center">
+                    <!-- Logo Circle -->
+                    <div class="auth-logo-circle">
+                        <div class="auth-logo-inner">
+                            📚
+                        </div>
                     </div>
-                    <span class="mt-3 text-2xl font-bold text-gray-900 dark:text-white">BukuHub</span>
-                    <span class="text-sm text-gray-500 dark:text-gray-400">Perpustakaan Digital</span>
-                </a>
+                    
+                    <!-- Brand Name -->
+                    <h1 class="text-3xl font-bold text-white mb-2">BukuHub</h1>
+                    <p class="text-green-100 text-center text-sm max-w-xs">
+                        Perpustakaan Digital Modern untuk Generasi Digital
+                    </p>
+                    
+                    <!-- Decorative Illustration -->
+                    <div class="mt-8 opacity-40">
+                        <img src="{{ asset('images/auth/decoration.png') }}" alt="Library Decoration" class="w-48 h-auto">
+                    </div>
+                </div>
+                
+                <!-- Asset Label -->
+                <div class="auth-asset-label">
+                    Digital Library Asset
+                </div>
             </div>
-
-            <!-- Card Container -->
-            <div class="w-full sm:max-w-xl mt-4 px-6 py-8 bg-white dark:bg-gray-800 shadow-xl overflow-hidden sm:rounded-2xl border border-gray-100 dark:border-gray-700">
-                {{ $slot }}
-            </div>
-
-            <!-- Footer -->
-            <div class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
-                &copy; {{ date('Y') }} BukuHub. All rights reserved.
+            
+            <!-- Right Panel -->
+            <div class="auth-right-panel">
+                <div class="auth-form-container">
+                    <!-- Back to Home Link -->
+                    <div class="mb-6">
+                        <a href="/" class="auth-link text-sm inline-flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                            </svg>
+                            Kembali ke Beranda
+                        </a>
+                    </div>
+                    
+                    <!-- Form Content Slot -->
+                    {{ $slot }}
+                    
+                    <!-- Footer -->
+                    <div class="mt-8 text-center text-xs text-gray-500">
+                        &copy; {{ date('Y') }} BukuHub. All rights reserved.
+                    </div>
+                </div>
             </div>
         </div>
     </body>

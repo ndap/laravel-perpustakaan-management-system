@@ -1,13 +1,9 @@
 <x-guest-layout>
+    <!-- Page Header -->
     <div class="mb-6 text-center">
-        <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-indigo-100 dark:bg-indigo-900 mb-4">
-            <svg class="h-8 w-8 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-            </svg>
-        </div>
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Konfirmasi Kata Sandi</h2>
-        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-            {{ __('Ini adalah area yang aman. Silakan konfirmasi kata sandi Anda sebelum melanjutkan.') }}
+        <h2 class="text-3xl font-bold text-gray-900 mb-2">Konfirmasi Password</h2>
+        <p class="text-gray-600 text-sm">
+            Ini adalah area aman dari aplikasi. Silakan konfirmasi password Anda sebelum melanjutkan.
         </p>
     </div>
 
@@ -15,22 +11,35 @@
         @csrf
 
         <!-- Password -->
-        <div>
-            <x-input-label for="password" :value="__('Kata Sandi')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" 
-                            placeholder="Masukkan kata sandi Anda" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <div class="mb-4">
+            <label for="password" class="auth-label">Password</label>
+            <input 
+                id="password" 
+                class="auth-input @error('password') auth-input-error @enderror" 
+                type="password" 
+                name="password" 
+                required 
+                autocomplete="current-password" 
+                placeholder="Masukkan password Anda"
+            >
+            @error('password')
+                <p class="auth-error-message">{{ $message }}</p>
+            @enderror
         </div>
 
-        <div class="flex justify-end mt-6">
-            <x-primary-button>
-                {{ __('Konfirmasi') }}
-            </x-primary-button>
+        <!-- Submit Button -->
+        <button type="submit" class="auth-button-primary mb-6">
+            Konfirmasi
+        </button>
+
+        <!-- Cancel Link -->
+        <div class="text-center">
+            <a class="auth-link text-sm inline-flex items-center justify-center" href="{{ route('dashboard') }}">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Kembali
+            </a>
         </div>
     </form>
 </x-guest-layout>
