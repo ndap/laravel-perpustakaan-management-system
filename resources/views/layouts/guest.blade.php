@@ -11,6 +11,9 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
 
+        <!-- FontAwesome CDN -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
         <!-- Tailwind CSS CDN -->
         <script src="https://cdn.tailwindcss.com"></script>
         <script>
@@ -64,7 +67,7 @@
                     <!-- Logo Circle -->
                     <div class="auth-logo-circle">
                         <div class="auth-logo-inner">
-                            📚
+                            <i class="fas fa-book-open text-5xl text-white"></i>
                         </div>
                     </div>
                     

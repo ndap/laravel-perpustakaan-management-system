@@ -48,6 +48,9 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/landing.css') }}">
+    
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="bg-white text-gray-900">
 
@@ -58,7 +61,7 @@
                 <!-- Logo -->
                 <div class="shrink-0">
                     <a href="#beranda" class="text-2xl font-bold text-primary-800">
-                        📚 BukuHub
+                        <i class="fas fa-book mr-2"></i> BukuHub
                     </a>
                 </div>
                 
@@ -355,7 +358,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
                 <!-- About -->
                 <div>
-                    <h3 class="text-white text-lg font-bold mb-4">📚 BukuHub</h3>
+                    <h3 class="text-white text-lg font-bold mb-4"><i class="fas fa-book mr-2"></i> BukuHub</h3>
                     <p class="text-sm text-gray-400">Platform perpustakaan digital modern yang memudahkan Anda mengakses dan meminjam buku secara online. Membaca lebih mudah, lebih terorganisir.</p>
                 </div>
                 
@@ -378,20 +381,20 @@
                             <svg class="w-5 h-5 mr-2 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
-                            info@bukuhub.id
+                            dafaalimuharram@gmail.com
                         </li>
                         <li class="flex items-center">
                             <svg class="w-5 h-5 mr-2 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                             </svg>
-                            +62 812-3456-7890
+                            +62 896-8294-9101
                         </li>
                     </ul>
                 </div>
             </div>
             
             <div class="border-t border-gray-800 pt-8 text-center">
-                <p class="text-sm text-gray-400">&copy; 2026 BukuHub. All rights reserved. Built with ❤️ for book lovers.</p>
+                <p class="text-sm text-gray-400">&copy; 2026 BukuHub. All rights reserved. Built with <i class="fas fa-heart text-red-500"></i> for book lovers.</p>
             </div>
         </div>
     </footer>

@@ -12,7 +12,8 @@ class BookCategoryController extends Controller
      */
     public function index()
     {
-        //
+        $bookCategories = book_category::all();
+        return view('admin.categoryManagement', compact('bookCategories'));
     }
 
     /**
@@ -28,7 +29,15 @@ class BookCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'category_name' => 'required|string|max:255|unique:book_categories,category_name',
+        ]);
+
+        book_category::create([
+            'category_name' => $request->category_name,
+        ]);
+
+        return redirect()->route('admin.categories')->with('success', 'Kategori berhasil ditambahkan.');
     }
 
     /**
