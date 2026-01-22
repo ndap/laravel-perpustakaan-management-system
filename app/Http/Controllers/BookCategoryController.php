@@ -12,7 +12,7 @@ class BookCategoryController extends Controller
      */
     public function index()
     {
-        $bookCategories = book_category::all();
+        $bookCategories = book_category::withCount('books')->get();
         return view('admin.categoryManagement', compact('bookCategories'));
     }
 
@@ -31,10 +31,12 @@ class BookCategoryController extends Controller
     {
         $request->validate([
             'category_name' => 'required|string|max:255|unique:book_categories,category_name',
+            'icon' => 'nullable|string|max:100',
         ]);
 
         book_category::create([
             'category_name' => $request->category_name,
+            'icon' => $request->icon,
         ]);
 
         return redirect()->route('admin.categories')->with('success', 'Kategori berhasil ditambahkan.');
@@ -61,7 +63,17 @@ class BookCategoryController extends Controller
      */
     public function update(Request $request, book_category $book_category)
     {
-        //
+        $request->validate([
+            'category_name' => 'required|string|max:255|unique:book_categories,category_name,' . $book_category->id,
+            'icon' => 'nullable|string|max:100',
+        ]);
+
+        $book_category->update([
+            'category_name' => $request->category_name,
+            'icon' => $request->icon,
+        ]);
+
+        return redirect()->route('admin.categories')->with('success', 'Kategori berhasil diperbarui.');
     }
 
     /**
@@ -69,6 +81,13 @@ class BookCategoryController extends Controller
      */
     public function destroy(book_category $book_category)
     {
-        //
+        // Check if category has books
+        if ($book_category->books()->count() > 0) {
+            return redirect()->route('admin.categories')->with('error', 'Kategori tidak dapat dihapus karena masih memiliki buku terkait.');
+        }
+
+        $book_category->delete();
+
+        return redirect()->route('admin.categories')->with('success', 'Kategori berhasil dihapus.');
     }
 }

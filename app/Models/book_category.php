@@ -9,6 +9,7 @@ class book_category extends Model
     protected $table = "book_categories";
     protected $fillable = [
         'category_name',
+        'icon',
     ];
 
     public function books()
