@@ -14,6 +14,10 @@
         <!-- FontAwesome CDN -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+        <!-- SweetAlert2 CDN -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         <!-- Scripts -->
         <!-- Tailwind CSS CDN -->
         <script src="https://cdn.tailwindcss.com"></script>

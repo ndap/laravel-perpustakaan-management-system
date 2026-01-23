@@ -30,6 +30,7 @@ class StoreBookRequest extends FormRequest
             'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'categories' => 'required|array|min:1',
             'categories.*' => 'exists:book_categories,id',
+            'stock' => 'required|integer|min:0',
         ];
     }
 
@@ -58,6 +59,9 @@ class StoreBookRequest extends FormRequest
             'categories.required' => 'Pilih minimal satu kategori.',
             'categories.min' => 'Pilih minimal satu kategori.',
             'categories.*.exists' => 'Kategori yang dipilih tidak valid.',
+            'stock.required' => 'Stok buku wajib diisi.',
+            'stock.integer' => 'Stok buku harus berupa angka.',
+            'stock.min' => 'Stok buku tidak boleh kurang dari 0.',
         ];
     }
 }

@@ -9,42 +9,43 @@ use App\Http\Controllers\BorrowingController;
 use App\Http\Controllers\BookCategoryController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\BookReviewController;
+use App\Http\Controllers\BookController;
 
 Route::get('/', function () {
     return view('landing');
 });
 
-Route::get('/dashboard', [HomeController::class, 'catalogue'])
-    ->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', [HomeController::class, 'catalogue'])
+//     ->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Home Routes
-    Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('home.bookmarks');
+    // Borrowing Routes - Only for regular users
+    Route::middleware(['isUser', 'verified'])->group(function () {
+        Route::get('/dashboard', [HomeController::class, 'catalogue'])->name('dashboard');
+        Route::get('/borrowing-history', [HomeController::class, 'myBorrowings'])->name('home.borrowingHistory');
+        Route::get('/book/{book}/borrow', [HomeController::class, 'borrowingForm'])->name('home.borrowingForm');
+        Route::post('/book/{book}/borrow', [HomeController::class, 'storeBorrowing'])->name('home.storeBorrowing');
 
-    Route::get('/borrowing-history', [HomeController::class, 'myBorrowings'])->name('home.borrowingHistory');
-
-    // Book Routes
-    Route::get('/book/{book}', [HomeController::class, 'bookDetail'])->name('home.bookDetail');
-    Route::get('/book/{book}/borrow', [HomeController::class, 'borrowingForm'])->name('home.borrowingForm');
-    Route::post('/book/{book}/borrow', [HomeController::class, 'storeBorrowing'])->name('home.storeBorrowing');
+        Route::post('/book/{book}/bookmark/toggle', [BookmarkController::class, 'toggle'])->name('bookmark.toggle');
+        Route::delete('/bookmarks/{bookmark}', [BookmarkController::class, 'destroy'])->name('bookmark.destroy');
+        Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('home.bookmarks');
+        // Review Routes
+        Route::post('/book/{book}/review', [BookReviewController::class, 'store'])->name('review.store');
+        Route::delete('/reviews/{review}', [BookReviewController::class, 'destroy'])->name('review.destroy');
+    });
 
     // Bookmark Routes
-    Route::post('/book/{book}/bookmark/toggle', [BookmarkController::class, 'toggle'])->name('bookmark.toggle');
-    Route::delete('/bookmarks/{bookmark}', [BookmarkController::class, 'destroy'])->name('bookmark.destroy');
-
-    // Review Routes
-    Route::post('/book/{book}/review', [BookReviewController::class, 'store'])->name('review.store');
-    Route::delete('/reviews/{review}', [BookReviewController::class, 'destroy'])->name('review.destroy');
+    Route::middleware('verified')->group(function () {
+        Route::get('/book/{book}', [HomeController::class, 'bookDetail'])->name('home.bookDetail');
+    });
 });
 
-use App\Http\Controllers\BookController;
-
 // Admin Routes
-Route::middleware(['auth'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'isAdmin', 'verified'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
     // Book CRUD Routes

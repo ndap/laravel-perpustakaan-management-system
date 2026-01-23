@@ -126,7 +126,7 @@
                                 name="borrow_date" 
                                 value="{{ date('Y-m-d') }}"
                                 min="{{ date('Y-m-d') }}"
-                                class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all @error('borrow_date') border-red-500 @enderror"
+                                class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all @error('borrow_date') @enderror"
                                 required
                             >
                             @error('borrow_date')
@@ -150,7 +150,7 @@
                                 name="return_date" 
                                 value="{{ date('Y-m-d', strtotime('+7 days')) }}"
                                 min="{{ date('Y-m-d', strtotime('+1 day')) }}"
-                                class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all @error('return_date') border-red-500 @enderror"
+                                class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all @error('return_date') @enderror"
                                 required
                             >
                             @error('return_date')

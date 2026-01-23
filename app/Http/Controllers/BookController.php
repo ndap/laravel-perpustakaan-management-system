@@ -71,6 +71,7 @@ class BookController extends Controller
             'publication_year' => $validated['publication_year'],
             'synopsis' => $validated['synopsis'] ?? null,
             'image' => $coverPath,
+            'stock' => $validated['stock'],
         ]);
 
         // Sync categories
@@ -119,6 +120,7 @@ class BookController extends Controller
         $book->publisher = $validated['publisher'];
         $book->publication_year = $validated['publication_year'];
         $book->synopsis = $validated['synopsis'] ?? null;
+        $book->stock = $validated['stock'];
         $book->save();
 
         // Sync categories

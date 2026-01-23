@@ -289,6 +289,32 @@
                     @enderror
                 </div>
 
+                <!-- Stock -->
+                <div>
+                    <label for="stock" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                            </svg>
+                            Stok Buku
+                            <span class="text-red-500">*</span>
+                        </div>
+                    </label>
+                    <input 
+                        id="stock" 
+                        name="stock" 
+                        type="number" 
+                        class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all hover:border-primary-300" 
+                        value="{{ old('stock', $book->stock) }}" 
+                        required 
+                        min="0"
+                        placeholder="Contoh: 10"
+                    >
+                    @error('stock')
+                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <!-- Synopsis -->
                 <div>
                     <label for="synopsis" class="block text-sm font-semibold text-gray-700 mb-2">

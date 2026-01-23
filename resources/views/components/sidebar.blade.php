@@ -13,7 +13,7 @@
         
         <li class="sidebar-item">
             <a href="{{ route('home.bookmarks') }}" class="sidebar-link {{ $currentRoute == 'home.bookmarks' ? 'active' : '' }}">
-                <span class="sidebar-icon"><i class="fas fa-heart text-red-500"></i></span>
+                <span class="sidebar-icon"><i class="fas fa-heart"></i></span>
                 <span>Koleksi Pribadi</span>
             </a>
         </li>

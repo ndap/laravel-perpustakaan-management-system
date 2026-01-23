@@ -117,7 +117,7 @@
                             <a href="{{ route('home.bookDetail', $bookmark->book) }}" class="flex-1 px-3 py-2 bg-primary-50 text-primary-700 rounded-lg hover:bg-primary-100 transition-colors font-semibold text-sm text-center">
                                 Lihat Detail
                             </a>
-                            <form action="{{ route('bookmark.destroy', $bookmark) }}" method="POST" class="inline" onsubmit="return confirm('Hapus buku ini dari koleksi?')">
+                            <form action="{{ route('bookmark.destroy', $bookmark) }}" method="POST" class="inline" onsubmit="event.preventDefault(); Swal.fire({ title: 'Hapus Bookmark?', text: 'Hapus buku ini dari koleksi?', icon: 'warning', showCancelButton: true, confirmButtonColor: '#10b981', cancelButtonColor: '#ef4444', confirmButtonText: 'Ya, Hapus', cancelButtonText: 'Batal' }).then((result) => { if (result.isConfirmed) { event.target.submit(); } });">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="px-3 py-2 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors font-semibold text-sm">

@@ -43,6 +43,38 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Check if user is an admin
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Check if user is a librarian
+     */
+    public function isLibrarian(): bool
+    {
+        return $this->role === 'librarian';
+    }
+
+    /**
+     * Check if user is a regular user
+     */
+    public function isRegularUser(): bool
+    {
+        return $this->role === 'user';
+    }
+
+    /**
+     * Check if user is staff (admin or librarian)
+     */
+    public function isStaff(): bool
+    {
+        return $this->isAdmin() || $this->isLibrarian();
+    }
+
+    /**
      * The attributes that should be hidden for serialization.
      *
      * @var list<string>

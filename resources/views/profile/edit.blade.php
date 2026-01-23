@@ -1,4 +1,8 @@
-<x-admin-layout>
+@php
+    $layout = $user->role === 'user' ? 'home-layout' : 'admin-layout';
+@endphp
+
+<x-dynamic-component :component="$layout">
     <x-slot name="title">Profil Saya</x-slot>
 
     <!-- Flash Messages -->
@@ -71,9 +75,6 @@
                         <div>
                             <h1 class="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">{{ $user->full_name ?? 'User' }}</h1>
                             <p class="text-gray-600 mt-0.5 flex items-center gap-2">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"/>
-                                </svg>
                                 {{ '@' . $user->username }}
                             </p>
                         </div>
@@ -595,4 +596,4 @@
             </div>
         </form>
     </x-modal>
-</x-admin-layout>
+</x-dynamic-component>

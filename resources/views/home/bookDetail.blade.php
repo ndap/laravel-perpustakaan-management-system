@@ -154,38 +154,40 @@
 
                 <!-- Action Buttons -->
                 <div class="flex flex-wrap gap-4 pt-6 border-t border-gray-100">
-                    @if(!$isAvailable)
-                        <button disabled class="flex-1 sm:flex-none px-8 py-4 bg-gray-100 text-gray-400 rounded-xl font-semibold cursor-not-allowed flex items-center justify-center gap-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    @if(auth()->user()->role === 'user')
+                        @if(!$isAvailable)
+                            <button disabled class="flex-1 sm:flex-none px-8 py-4 bg-gray-100 text-gray-400 rounded-xl font-semibold cursor-not-allowed flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                Stok Tidak Tersedia
+                            </button>
+                        @else
+                            <a href="{{ route('home.borrowingForm', $book) }}" class="flex-1 sm:flex-none px-8 py-4 bg-gradient-to-r from-primary-600 to-emerald-600 text-white rounded-xl hover:from-primary-700 hover:to-emerald-700 transition-all font-semibold shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                </svg>
+                                Pinjam Buku
+                            </a>
+                        @endif
+
+
+                        <button 
+                            id="bookmarkBtn" 
+                            data-book-id="{{ $book->id }}"
+                            data-bookmarked="{{ $isBookmarked ? 'true' : 'false' }}"
+                            class="bookmark-button px-6 py-4 rounded-xl transition-all font-semibold flex items-center justify-center gap-2 border
+                                {{ $isBookmarked 
+                                    ? 'bg-amber-100 text-amber-700 border-amber-300 hover:bg-amber-200' 
+                                    : 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100' 
+                                }}"
+                        >
+                            <svg class="w-5 h-5 bookmark-icon {{ $isBookmarked ? 'fill-current' : '' }}" fill="{{ $isBookmarked ? 'currentColor' : 'none' }}" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
                             </svg>
-                            Stok Tidak Tersedia
+                            <span class="bookmark-text">{{ $isBookmarked ? 'Tersimpan' : 'Bookmark' }}</span>
                         </button>
-                    @else
-                        <a href="{{ route('home.borrowingForm', $book) }}" class="flex-1 sm:flex-none px-8 py-4 bg-gradient-to-r from-primary-600 to-emerald-600 text-white rounded-xl hover:from-primary-700 hover:to-emerald-700 transition-all font-semibold shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                            </svg>
-                            Pinjam Buku
-                        </a>
                     @endif
-
-
-                    <button 
-                        id="bookmarkBtn" 
-                        data-book-id="{{ $book->id }}"
-                        data-bookmarked="{{ $isBookmarked ? 'true' : 'false' }}"
-                        class="bookmark-button px-6 py-4 rounded-xl transition-all font-semibold flex items-center justify-center gap-2 border
-                            {{ $isBookmarked 
-                                ? 'bg-amber-100 text-amber-700 border-amber-300 hover:bg-amber-200' 
-                                : 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100' 
-                            }}"
-                    >
-                        <svg class="w-5 h-5 bookmark-icon {{ $isBookmarked ? 'fill-current' : '' }}" fill="{{ $isBookmarked ? 'currentColor' : 'none' }}" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
-                        </svg>
-                        <span class="bookmark-text">{{ $isBookmarked ? 'Tersimpan' : 'Bookmark' }}</span>
-                    </button>
 
 
                     <a href="{{ route('dashboard') }}" class="px-6 py-4 bg-gray-50 text-gray-700 rounded-xl hover:bg-gray-100 transition-all font-semibold flex items-center justify-center gap-2 border border-gray-200">
@@ -251,78 +253,80 @@
 
         <div class="p-6">
             <!-- Review Form (if user hasn't reviewed yet) -->
-            @if(!$userHasReviewed)
-                <div class="mb-8 bg-gradient-to-br from-primary-50 to-emerald-50 rounded-xl p-6 border border-primary-100">
-                    <h3 class="text-lg font-bold text-gray-900 mb-4">Berikan Ulasan Anda</h3>
-                    
-                    <form action="{{ route('review.store', $book) }}" method="POST" id="reviewForm">
-                        @csrf
+            @if(auth()->user()->role === 'user')
+                @if(!$userHasReviewed)
+                    <div class="mb-8 bg-gradient-to-br from-primary-50 to-emerald-50 rounded-xl p-6 border border-primary-100">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4">Berikan Ulasan Anda</h3>
                         
-                        <!-- Star Rating Input -->
-                        <div class="mb-4">
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                Rating <span class="text-red-500">*</span>
-                            </label>
-                            <div class="flex items-center gap-2">
-                                <div class="flex gap-1" id="starRating">
-                                    @for($i = 1; $i <= 5; $i++)
-                                        <button 
-                                            type="button" 
-                                            class="star-btn transition-transform hover:scale-110" 
-                                            data-rating="{{ $i }}"
-                                        >
-                                            <svg class="w-8 h-8 text-gray-300 fill-current cursor-pointer" viewBox="0 0 20 20">
-                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                                            </svg>
-                                        </button>
-                                    @endfor
+                        <form action="{{ route('review.store', $book) }}" method="POST" id="reviewForm">
+                            @csrf
+                            
+                            <!-- Star Rating Input -->
+                            <div class="mb-4">
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Rating <span class="text-red-500">*</span>
+                                </label>
+                                <div class="flex items-center gap-2">
+                                    <div class="flex gap-1" id="starRating">
+                                        @for($i = 1; $i <= 5; $i++)
+                                            <button 
+                                                type="button" 
+                                                class="star-btn transition-transform hover:scale-110" 
+                                                data-rating="{{ $i }}"
+                                            >
+                                                <svg class="w-8 h-8 text-gray-300 fill-current cursor-pointer" viewBox="0 0 20 20">
+                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                                </svg>
+                                            </button>
+                                        @endfor
+                                    </div>
+                                    <span id="ratingText" class="text-sm font-semibold text-gray-700"></span>
                                 </div>
-                                <span id="ratingText" class="text-sm font-semibold text-gray-700"></span>
+                                <input type="hidden" name="rating" id="ratingInput" required>
+                                @error('rating')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
-                            <input type="hidden" name="rating" id="ratingInput" required>
-                            @error('rating')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
 
-                        <!-- Review Text -->
-                        <div class="mb-4">
-                            <label for="review" class="block text-sm font-semibold text-gray-700 mb-2">
-                                Ulasan <span class="text-red-500">*</span>
-                            </label>
-                            <textarea 
-                                name="review" 
-                                id="review"
-                                rows="4" 
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"
-                                placeholder="Tulis ulasan Anda tentang buku ini... (minimal 10 karakter)"
-                                required
-                            >{{ old('review') }}</textarea>
-                            @error('review')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                            <p class="mt-1 text-xs text-gray-500">Minimal 10 karakter, maksimal 1000 karakter</p>
-                        </div>
+                            <!-- Review Text -->
+                            <div class="mb-4">
+                                <label for="review" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Ulasan <span class="text-red-500">*</span>
+                                </label>
+                                <textarea 
+                                    name="review" 
+                                    id="review"
+                                    rows="4" 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"
+                                    placeholder="Tulis ulasan Anda tentang buku ini... (minimal 10 karakter)"
+                                    required
+                                >{{ old('review') }}</textarea>
+                                @error('review')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                                <p class="mt-1 text-xs text-gray-500">Minimal 10 karakter, maksimal 1000 karakter</p>
+                            </div>
 
-                        <!-- Submit Button -->
-                        <button 
-                            type="submit"
-                            class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-primary-600 to-emerald-600 text-white rounded-lg hover:from-primary-700 hover:to-emerald-700 transition-all font-semibold shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-                        >
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                            </svg>
-                            Kirim Ulasan
-                        </button>
-                    </form>
-                </div>
-            @else
-                <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-xl flex items-center gap-3">
-                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <span class="text-blue-700 font-medium">Anda sudah memberikan ulasan untuk buku ini</span>
-                </div>
+                            <!-- Submit Button -->
+                            <button 
+                                type="submit"
+                                class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-primary-600 to-emerald-600 text-white rounded-lg hover:from-primary-700 hover:to-emerald-700 transition-all font-semibold shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                            >
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                </svg>
+                                Kirim Ulasan
+                            </button>
+                        </form>
+                    </div>
+                @else
+                    <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-xl flex items-center gap-3">
+                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span class="text-blue-700 font-medium">Anda sudah memberikan ulasan untuk buku ini</span>
+                    </div>
+                @endif
             @endif
 
             <!-- Reviews List -->
@@ -357,7 +361,7 @@
 
                             <!-- Delete Button (only for user's own review) -->
                             @if(Auth::id() === $review->user_id)
-                                <form action="{{ route('review.destroy', $review) }}" method="POST" class="inline" onsubmit="return confirm('Hapus ulasan ini?')">
+                                <form action="{{ route('review.destroy', $review) }}" method="POST" class="inline" onsubmit="event.preventDefault(); Swal.fire({ title: 'Hapus Ulasan?', text: 'Hapus ulasan ini?', icon: 'warning', showCancelButton: true, confirmButtonColor: '#10b981', cancelButtonColor: '#ef4444', confirmButtonText: 'Ya, Hapus', cancelButtonText: 'Batal' }).then((result) => { if (result.isConfirmed) { event.target.submit(); } });">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-red-600 hover:text-red-700 transition-colors">
