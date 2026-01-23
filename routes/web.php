@@ -3,9 +3,12 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BookCategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\BorrowingController;
+use App\Http\Controllers\BookCategoryController;
+use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\BookReviewController;
 
 Route::get('/', function () {
     return view('landing');
@@ -20,18 +23,22 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Home Routes
-    Route::get('/bookmarks', function () {
-        return view('home.bookmarks');
-    })->name('home.bookmarks');
+    Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('home.bookmarks');
 
-    Route::get('/borrowing-history', function () {
-        return view('home.borrowingHistory');
-    })->name('home.borrowingHistory');
+    Route::get('/borrowing-history', [HomeController::class, 'myBorrowings'])->name('home.borrowingHistory');
 
     // Book Routes
     Route::get('/book/{book}', [HomeController::class, 'bookDetail'])->name('home.bookDetail');
     Route::get('/book/{book}/borrow', [HomeController::class, 'borrowingForm'])->name('home.borrowingForm');
     Route::post('/book/{book}/borrow', [HomeController::class, 'storeBorrowing'])->name('home.storeBorrowing');
+
+    // Bookmark Routes
+    Route::post('/book/{book}/bookmark/toggle', [BookmarkController::class, 'toggle'])->name('bookmark.toggle');
+    Route::delete('/bookmarks/{bookmark}', [BookmarkController::class, 'destroy'])->name('bookmark.destroy');
+
+    // Review Routes
+    Route::post('/book/{book}/review', [BookReviewController::class, 'store'])->name('review.store');
+    Route::delete('/reviews/{review}', [BookReviewController::class, 'destroy'])->name('review.destroy');
 });
 
 use App\Http\Controllers\BookController;
@@ -58,6 +65,12 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::post('/users', [UserController::class, 'store'])->name('user.store');
     Route::patch('/users/{user}/role', [UserController::class, 'updateRole'])->name('user.updateRole');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+
+    // Borrowing Management Routes
+    Route::get('/borrowings', [BorrowingController::class, 'index'])->name('admin.borrowings');
+    Route::post('/borrowings/{borrowing}/approve', [BorrowingController::class, 'approve'])->name('borrowing.approve');
+    Route::post('/borrowings/{borrowing}/reject', [BorrowingController::class, 'reject'])->name('borrowing.reject');
+    Route::post('/borrowings/{borrowing}/confirm-return', [BorrowingController::class, 'confirmReturn'])->name('borrowing.confirmReturn');
 
     Route::get('/reports', function () {
         return view('admin.reportGenerate');

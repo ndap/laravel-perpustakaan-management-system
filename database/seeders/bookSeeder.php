@@ -20,6 +20,7 @@ class bookSeeder extends Seeder
             'publisher' => 'Bentang Pustaka',
             'publication_year' => 2005,
             'synopsis' => 'Novel ini mengisahkan kehidupan 10 anak dari keluarga miskin yang bersekolah di SD Muhammadiyah di Belitung. Mereka menghadapi berbagai tantangan namun tetap semangat mengejar mimpi.',
+            'stock' => 3,
         ]);
 
         book::create([
@@ -29,6 +30,7 @@ class bookSeeder extends Seeder
             'publisher' => 'Hasta Mitra',
             'publication_year' => 1980,
             'synopsis' => 'Novel pertama dalam tetralogi Buru yang mengisahkan perjalanan hidup Minke, seorang pribumi muda yang terpelajar di masa kolonial Belanda.',
+            'stock' => 5,
         ]);
 
         book::create([
@@ -38,6 +40,7 @@ class bookSeeder extends Seeder
             'publisher' => 'Bentang Pustaka',
             'publication_year' => 2009,
             'synopsis' => 'Mengisahkan tentang Kugy dan Keenan yang memiliki mimpi besar. Keduanya bertemu dalam perjalanan yang penuh inspirasi dan cinta.',
+            'stock' => 2,
         ]);
 
         book::create([
@@ -47,6 +50,7 @@ class bookSeeder extends Seeder
             'publisher' => 'Bentang Pustaka',
             'publication_year' => 2006,
             'synopsis' => 'Sekuel dari Laskar Pelangi yang menceritakan perjuangan Ikal dan Arai untuk mewujudkan mimpi mereka melanjutkan pendidikan ke luar negeri.',
+            'stock' => 4,
         ]);
 
         book::create([
@@ -56,6 +60,7 @@ class bookSeeder extends Seeder
             'publisher' => 'Republika',
             'publication_year' => 2004,
             'synopsis' => 'Novel yang mengisahkan perjalanan cinta seorang mahasiswa Indonesia bernama Fahri yang tengah menempuh pendidikan di Universitas Al Azhar, Kairo.',
+            'stock' => 3,
         ]);
 
         book::create([
@@ -65,6 +70,7 @@ class bookSeeder extends Seeder
             'publisher' => 'Gramedia Pustaka Utama',
             'publication_year' => 2009,
             'synopsis' => 'Novel inspiratif tentang kehidupan di pondok pesantren Madani yang mengajarkan pentingnya mimpi, doa, dan ikhtiar.',
+            'stock' => 5,
         ]);
 
         book::create([
@@ -74,6 +80,7 @@ class bookSeeder extends Seeder
             'publisher' => 'Gramedia Pustaka Utama',
             'publication_year' => 1982,
             'synopsis' => 'Trilogi pertama yang mengisahkan kehidupan Srintil, seorang ronggeng dari Dukuh Paruk yang nasibnya diombang-ambingkan oleh tradisi dan politik.',
+            'stock' => 2,
         ]);
 
         book::create([
@@ -83,6 +90,7 @@ class bookSeeder extends Seeder
             'publisher' => 'Gramedia Pustaka Utama',
             'publication_year' => 2002,
             'synopsis' => 'Novel yang menggabungkan realisme magis dengan sejarah Indonesia, mengisahkan kehidupan Dewi Ayu dan keturunannya yang penuh dengan tragedi.',
+            'stock' => 4,
         ]);
 
         book::create([
@@ -92,6 +100,7 @@ class bookSeeder extends Seeder
             'publisher' => 'Bentang Pustaka',
             'publication_year' => 2007,
             'synopsis' => 'Bagian ketiga dari tetralogi Laskar Pelangi yang menceritakan petualangan Ikal di Eropa dalam mengejar impiannya.',
+            'stock' => 3,
         ]);
 
         book::create([
@@ -101,6 +110,7 @@ class bookSeeder extends Seeder
             'publisher' => 'Bulan Bintang',
             'publication_year' => 1938,
             'synopsis' => 'Novel klasik yang mengisahkan kisah cinta tragis antara Zainuddin dan Hayati yang terhalang oleh perbedaan status sosial dan adat istiadat Minangkabau.',
+            'stock' => 2,
         ]);
     }
 }

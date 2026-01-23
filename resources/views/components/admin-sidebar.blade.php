@@ -33,6 +33,13 @@
         </li>
         
         <li class="sidebar-item">
+            <a href="{{ route('admin.borrowings') }}" class="sidebar-link {{ str_starts_with($currentRoute, 'admin.borrowings') || str_starts_with($currentRoute, 'borrowing.') ? 'active' : '' }}">
+                <span class="sidebar-icon"><i class="fas fa-book-reader"></i></span>
+                <span>Manajemen Peminjaman</span>
+            </a>
+        </li>
+        
+        <li class="sidebar-item">
             <a href="{{ route('admin.reports') }}" class="sidebar-link {{ str_starts_with($currentRoute, 'admin.reports') ? 'active' : '' }}">
                 <span class="sidebar-icon"><i class="fas fa-file-lines"></i></span>
                 <span>Generate Laporan</span>

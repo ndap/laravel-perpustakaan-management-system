@@ -108,9 +108,9 @@ class userSeeder extends Seeder
         ]);
 
         User::create([
-            'full_name' => 'Indah Permata',
-            'username' => 'indah.permata',
-            'email' => 'indah.permata@gmail.com',
+            'full_name' => 'Dafa Ali',
+            'username' => 'dafa.ali',
+            'email' => 'ndapu2401@gmail.com',
             'phone_number' => '089012345678',
             'address' => 'Jl. Merdeka No. 45, Makassar',
             'password' => Hash::make('password'),

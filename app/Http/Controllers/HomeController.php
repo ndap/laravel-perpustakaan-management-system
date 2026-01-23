@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\book;
 use App\Models\book_category;
 use App\Models\borrowing;
+use App\Models\bookmark;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,13 +40,15 @@ class HomeController extends Controller
 
         // Statistics
         $totalBooks = book::count();
-        $borrowedBooks = borrowing::where('status', 'borrowed')->count();
-        $availableBooks = $totalBooks - $borrowedBooks;
+        $totalStock = book::sum('stock');
+        $borrowedBooks = borrowing::where('status', 'approved')->count();
+        $availableBooks = $totalStock;
 
         return view('home.bookCatalogue', compact(
             'books',
             'categories',
             'totalBooks',
+            'totalStock',
             'availableBooks',
             'borrowedBooks'
         ));
@@ -56,12 +59,31 @@ class HomeController extends Controller
      */
     public function bookDetail(book $book)
     {
-        $book->load('categories', 'reviews');
+        // Load relationships
+        $book->load('categories');
 
-        // Check if book is currently borrowed
-        $isBorrowed = borrowing::where('book_id', $book->id)
-            ->where('status', 'borrowed')
+        // Check if book is available (based on stock)
+        $isAvailable = $book->isAvailable();
+
+        // Check if user has bookmarked this book
+        $isBookmarked = bookmark::where('user_id', Auth::id())
+            ->where('book_id', $book->id)
             ->exists();
+
+        // Load reviews with user information, ordered by newest first
+        $reviews = $book->reviews()
+            ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Check if current user has already reviewed this book
+        $userHasReviewed = $book->reviews()
+            ->where('user_id', Auth::id())
+            ->exists();
+
+        // Calculate average rating and review count
+        $averageRating = $book->averageRating();
+        $reviewCount = $book->reviewCount();
 
         // Get related books (same category)
         $relatedBooks = book::whereHas('categories', function ($q) use ($book) {
@@ -71,7 +93,16 @@ class HomeController extends Controller
             ->limit(4)
             ->get();
 
-        return view('home.bookDetail', compact('book', 'isBorrowed', 'relatedBooks'));
+        return view('home.bookDetail', compact(
+            'book',
+            'isAvailable',
+            'isBookmarked',
+            'reviews',
+            'userHasReviewed',
+            'averageRating',
+            'reviewCount',
+            'relatedBooks'
+        ));
     }
 
     /**
@@ -79,14 +110,10 @@ class HomeController extends Controller
      */
     public function borrowingForm(book $book)
     {
-        // Check if book is available
-        $isBorrowed = borrowing::where('book_id', $book->id)
-            ->where('status', 'borrowed')
-            ->exists();
-
-        if ($isBorrowed) {
+        // Check if book is available (stock > 0)
+        if (!$book->isAvailable()) {
             return redirect()->route('home.bookDetail', $book)
-                ->with('error', 'Buku ini sedang dipinjam.');
+                ->with('error', 'Stok buku tidak tersedia. Silakan tunggu hingga ada yang mengembalikan.');
         }
 
         $user = Auth::user();
@@ -104,26 +131,40 @@ class HomeController extends Controller
             'return_date' => 'required|date|after:borrow_date',
         ]);
 
-        // Check if book is available
-        $isBorrowed = borrowing::where('book_id', $book->id)
-            ->where('status', 'borrowed')
-            ->exists();
-
-        if ($isBorrowed) {
+        // Check if book is available (stock > 0)
+        if (!$book->isAvailable()) {
             return redirect()->route('home.bookDetail', $book)
-                ->with('error', 'Buku ini sedang dipinjam.');
+                ->with('error', 'Stok buku tidak tersedia.');
         }
 
-        // Create borrowing record
+        // Create borrowing record with pending status
         borrowing::create([
             'user_id' => Auth::id(),
             'book_id' => $book->id,
             'borrow_date' => $request->borrow_date,
             'return_date' => $request->return_date,
-            'status' => 'borrowed',
+            'status' => 'pending',
         ]);
 
         return redirect()->route('home.borrowingHistory')
-            ->with('success', 'Buku berhasil dipinjam!');
+            ->with('success', 'Permintaan peminjaman berhasil dikirim! Silakan tunggu persetujuan dari admin/pustakawan.');
+    }
+
+    /**
+     * Display user's borrowing history
+     */
+    public function myBorrowings(Request $request)
+    {
+        $query = borrowing::with(['book', 'approvedBy', 'confirmedBy'])
+            ->where('user_id', Auth::id());
+
+        // Filter by status if provided
+        if ($request->has('status') && $request->status) {
+            $query->where('status', $request->status);
+        }
+
+        $borrowings = $query->orderBy('created_at', 'desc')->paginate(10);
+
+        return view('home.borrowingHistory', compact('borrowings'));
     }
 }

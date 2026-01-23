@@ -16,7 +16,19 @@ return new class extends Migration {
             $table->foreignId('book_id')->constrained()->cascadeOnDelete();
             $table->date('borrow_date');
             $table->date('return_date');
-            $table->enum('status', ['borrowed', 'returned', 'overdue'])->default('borrowed');
+
+            // Status with approval workflow
+            $table->enum('status', ['pending', 'approved', 'rejected', 'returned', 'overdue'])
+                ->default('pending');
+
+            // Approval tracking fields
+            $table->timestamp('approved_at')->nullable();
+            $table->foreignId('approved_by')->nullable()->constrained('users')->nullOnDelete();
+
+            // Return tracking fields
+            $table->timestamp('returned_at')->nullable();
+            $table->foreignId('confirmed_by')->nullable()->constrained('users')->nullOnDelete();
+
             $table->timestamps();
         });
     }
