@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\BorrowingController;
 use App\Http\Controllers\BookCategoryController;
 use App\Http\Controllers\BookmarkController;
@@ -74,8 +75,15 @@ Route::middleware(['auth', 'isAdmin', 'verified'])->prefix('admin')->group(funct
     Route::post('/borrowings/{borrowing}/confirm-return', [BorrowingController::class, 'confirmReturn'])->name('borrowing.confirmReturn');
 
     Route::get('/reports', function () {
-        return view('admin.reportGenerate');
+        $categories = \App\Models\book_category::orderBy('category_name')->get();
+        return view('admin.reportGenerate', compact('categories'));
     })->name('admin.reports');
+
+    // Report Generation Routes
+    Route::post('/reports/borrowing', [ReportController::class, 'borrowingReport'])->name('report.borrowing');
+    Route::post('/reports/books', [ReportController::class, 'bookReport'])->name('report.books');
+    Route::post('/reports/users', [ReportController::class, 'userReport'])->name('report.users');
+    Route::post('/reports/statistics', [ReportController::class, 'statisticsReport'])->name('report.statistics');
 });
 
 require __DIR__ . '/auth.php';
