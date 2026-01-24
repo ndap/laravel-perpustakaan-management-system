@@ -156,7 +156,7 @@ Biar gak capek ngetik `docker-compose exec ...` terus, pake ginian aja:
 
 <div align="center">
 
-  **Made with ❤️ by [Your Name]**
+  **Made with ❤️ by [Dafa Ali]**
   
   Don't forget to ⭐ star this repo if you find it useful!
 
