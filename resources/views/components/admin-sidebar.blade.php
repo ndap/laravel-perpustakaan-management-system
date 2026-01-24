@@ -25,12 +25,14 @@
             </a>
         </li>
         
+        @if(auth()->user()->isAdmin())
         <li class="sidebar-item">
             <a href="{{ route('admin.users') }}" class="sidebar-link {{ str_starts_with($currentRoute, 'admin.users') ? 'active' : '' }}">
                 <span class="sidebar-icon"><i class="fas fa-users"></i></span>
                 <span>Manajemen User</span>
             </a>
         </li>
+        @endif
         
         <li class="sidebar-item">
             <a href="{{ route('admin.borrowings') }}" class="sidebar-link {{ str_starts_with($currentRoute, 'admin.borrowings') || str_starts_with($currentRoute, 'borrowing.') ? 'active' : '' }}">

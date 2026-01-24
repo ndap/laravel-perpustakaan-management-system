@@ -12,38 +12,48 @@
         @csrf
 
         <!-- Email or Username -->
-        <div class="mb-4">
-            <label for="login" class="auth-label">Email / Username</label>
-            <input 
-                id="login" 
-                class="auth-input @error('login') auth-input-error @enderror" 
-                type="text" 
-                name="login" 
-                value="{{ old('login') }}" 
-                required 
-                autofocus 
-                autocomplete="username" 
-                placeholder="Masukkan email atau username"
-            >
+        <div class="mb-5">
+            <label for="login" class="auth-label block mb-2 text-sm font-semibold text-gray-700">Email / Username</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i class="fas fa-user text-gray-400"></i>
+                </div>
+                <input 
+                    id="login" 
+                    class="auth-input pl-10 block w-full rounded-full border-gray-300 focus:border-forest-500 focus:ring focus:ring-forest-200 focus:ring-opacity-50 transition duration-200 @error('login') border-red-500 @enderror" 
+                    type="text" 
+                    name="login" 
+                    value="{{ old('login') }}" 
+                    required 
+                    autofocus 
+                    autocomplete="username" 
+                    placeholder="Masukkan email atau username"
+                >
+            </div>
             @error('login')
-                <p class="auth-error-message">{{ $message }}</p>
+                <p class="auth-error-message text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
         </div>
 
         <!-- Password -->
-        <div class="mb-4">
-            <label for="password" class="auth-label">Password</label>
-            <input 
-                id="password" 
-                class="auth-input @error('password') auth-input-error @enderror" 
-                type="password" 
-                name="password" 
-                required 
-                autocomplete="current-password" 
-                placeholder="Masukkan password"
-            >
+        <div class="mb-5">
+            <label for="password" class="auth-label block mb-2 text-sm font-semibold text-gray-700">Password</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i class="fas fa-lock text-gray-400"></i>
+                </div>
+                <input 
+                    id="password" 
+                    class="auth-input pl-10 block w-full rounded-full border-gray-300 focus:border-forest-500 focus:ring focus:ring-forest-200 focus:ring-opacity-50 transition duration-200 @error('password') border-red-500 @enderror" 
+                    type="password" 
+                    name="password" 
+                    required 
+                    autocomplete="current-password" 
+                    placeholder="Masukkan password"
+                >
+            </div>
             @error('password')
-                <p class="auth-error-message">{{ $message }}</p>
+                <p class="auth-error-message text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
         </div>
 

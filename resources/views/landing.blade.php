@@ -51,8 +51,24 @@
     
     <!-- FontAwesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-white text-gray-900">
+    @if(session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: "{{ session('success') }}",
+                    icon: 'success',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            });
+        </script>
+    @endif
 
     <!-- Navbar -->
     <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white">
@@ -113,9 +129,6 @@
                     Akses ribuan buku digital, pinjam buku online dengan mudah, dan kelola riwayat peminjaman Anda dalam satu platform yang terorganisir.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="#koleksi-buku" data-cta="explore" class="btn-primary bg-white text-primary-800 px-8 py-4 rounded-lg font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
-                        Jelajahi Koleksi
-                    </a>
                     <a href="{{ route('register') }}" class="btn-primary bg-primary-800 border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
                         Pinjam Buku Sekarang
                     </a>
@@ -176,84 +189,6 @@
                     <h3 class="text-xl font-bold text-gray-900 mb-3">Riwayat Peminjaman</h3>
                     <p class="text-gray-600">Pantau riwayat peminjaman, status pengembalian, dan kelola aktivitas membaca Anda</p>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Library App Preview Section -->
-    <section id="koleksi-buku" class="py-20 bg-white">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 animate-on-scroll">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Koleksi Buku Terpopuler</h2>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Jelajahi berbagai koleksi buku dari berbagai genre dan kategori</p>
-            </div>
-            
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-                <!-- Book Card 1 -->
-                <div class="book-card animate-on-scroll">
-                    <div class="book-cover-frame aspect-2/3 mb-3">
-                        <img src="{{ asset('images/books/book_cover_1_1768631196917.png') }}" alt="The Art of Programming" class="w-full h-full object-cover">
-                    </div>
-                    <h3 class="font-bold text-gray-900 text-sm mb-1 line-clamp-2">The Art of Programming</h3>
-                    <p class="text-gray-600 text-xs mb-2">Alex Chen</p>
-                    <span class="status-badge bg-green-100 text-green-800">Tersedia</span>
-                </div>
-                
-                <!-- Book Card 2 -->
-                <div class="book-card animate-on-scroll">
-                    <div class="book-cover-frame aspect-2/3 mb-3">
-                        <img src="{{ asset('images/books/book_cover_2_1768631211953.png') }}" alt="Digital Innovation" class="w-full h-full object-cover">
-                    </div>
-                    <h3 class="font-bold text-gray-900 text-sm mb-1 line-clamp-2">Digital Innovation</h3>
-                    <p class="text-gray-600 text-xs mb-2">Alex Chen</p>
-                    <span class="status-badge bg-green-100 text-green-800">Tersedia</span>
-                </div>
-                
-                <!-- Book Card 3 -->
-                <div class="book-card animate-on-scroll">
-                    <div class="book-cover-frame aspect-2/3 mb-3">
-                        <img src="{{ asset('images/books/book_cover_3_1768631228428.png') }}" alt="The Psychology of Learning" class="w-full h-full object-cover">
-                    </div>
-                    <h3 class="font-bold text-gray-900 text-sm mb-1 line-clamp-2">The Psychology of Learning</h3>
-                    <p class="text-gray-600 text-xs mb-2">Dr. Elara Vance</p>
-                    <span class="status-badge bg-red-100 text-red-800">Dipinjam</span>
-                </div>
-                
-                <!-- Book Card 4 -->
-                <div class="book-card animate-on-scroll">
-                    <div class="book-cover-frame aspect-2/3 mb-3">
-                        <img src="{{ asset('images/books/book_cover_4_1768631247573.png') }}" alt="Data Science Essentials" class="w-full h-full object-cover">
-                    </div>
-                    <h3 class="font-bold text-gray-900 text-sm mb-1 line-clamp-2">Data Science Essentials</h3>
-                    <p class="text-gray-600 text-xs mb-2">A.R. Chen</p>
-                    <span class="status-badge bg-green-100 text-green-800">Tersedia</span>
-                </div>
-                
-                <!-- Book Card 5 -->
-                <div class="book-card animate-on-scroll">
-                    <div class="book-cover-frame aspect-2/3 mb-3">
-                        <img src="{{ asset('images/books/book_cover_5_1768631263100.png') }}" alt="Creative Writing Workshop" class="w-full h-full object-cover">
-                    </div>
-                    <h3 class="font-bold text-gray-900 text-sm mb-1 line-clamp-2">Creative Writing Workshop</h3>
-                    <p class="text-gray-600 text-xs mb-2">Literary Guide</p>
-                    <span class="status-badge bg-green-100 text-green-800">Tersedia</span>
-                </div>
-                
-                <!-- Book Card 6 -->
-                <div class="book-card animate-on-scroll">
-                    <div class="book-cover-frame aspect-2/3 mb-3">
-                        <img src="{{ asset('images/books/book_cover_6_1768631279021.png') }}" alt="Business Strategy" class="w-full h-full object-cover">
-                    </div>
-                    <h3 class="font-bold text-gray-900 text-sm mb-1 line-clamp-2">Business Strategy</h3>
-                    <p class="text-gray-600 text-xs mb-2">Alexander Chen</p>
-                    <span class="status-badge bg-green-100 text-green-800">Tersedia</span>
-                </div>
-            </div>
-            
-            <div class="text-center mt-12">
-                <a href="#" class="btn-primary inline-block bg-primary-700 hover:bg-primary-800 text-white px-8 py-3 rounded-lg font-semibold text-lg shadow-md hover:shadow-lg transition-all">
-                    Lihat Semua Koleksi
-                </a>
             </div>
         </div>
     </section>
@@ -334,24 +269,6 @@
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="py-20 bg-primary-900 text-white">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="max-w-3xl mx-auto text-center animate-on-scroll">
-                <h2 class="text-3xl md:text-4xl font-bold mb-6">Siap Memulai Perjalanan Membaca Anda?</h2>
-                <p class="text-lg text-green-100 mb-8">Bergabunglah dengan ribuan pengguna yang telah mempercayai BukuHub sebagai perpustakaan digital mereka</p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="{{ route('register') }}" class="btn-primary bg-white text-primary-900 px-8 py-4 rounded-lg font-bold text-lg shadow-lg hover:shadow-xl transition-all">
-                        Daftar Sekarang Gratis
-                    </a>
-                    <a href="#koleksi-buku" class="btn-primary border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg shadow-lg hover:shadow-xl transition-all">
-                        Lihat Koleksi
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer class="bg-gray-900 text-gray-300 py-12">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -359,7 +276,7 @@
                 <!-- About -->
                 <div>
                     <h3 class="text-white text-lg font-bold mb-4"><i class="fas fa-book mr-2"></i> BukuHub</h3>
-                    <p class="text-sm text-gray-400">Platform perpustakaan digital modern yang memudahkan Anda mengakses dan meminjam buku secara online. Membaca lebih mudah, lebih terorganisir.</p>
+                    <p class="text-sm text-gray-400">Platform Peminjaman buku modern yang memudahkan Anda mengakses dan meminjam buku secara online. Membaca lebih mudah, lebih terorganisir.</p>
                 </div>
                 
                 <!-- Quick Links -->
@@ -394,7 +311,7 @@
             </div>
             
             <div class="border-t border-gray-800 pt-8 text-center">
-                <p class="text-sm text-gray-400">&copy; 2026 BukuHub. All rights reserved. Built with <i class="fas fa-heart text-red-500"></i> for book lovers.</p>
+                <p class="text-sm text-gray-400">&copy; 2026 BukuHub. All rights reserved. Built with <i class="fas fa-heart"></i> for UKK.</p>
             </div>
         </div>
     </footer>

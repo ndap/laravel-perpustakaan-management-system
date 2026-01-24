@@ -65,21 +65,20 @@
             <div class="auth-left-panel">
                 <div class="flex-1 flex flex-col items-center justify-center">
                     <!-- Logo Circle -->
-                    <div class="auth-logo-circle">
-                        <div class="auth-logo-inner">
-                            <i class="fas fa-book-open text-5xl text-white"></i>
+                    <div class="auth-logo-circle mb-8">
+                        <div class="auth-logo-inner shadow-lg">
+                            <i class="fas fa-book-open text-6xl text-forest-600"></i>
                         </div>
                     </div>
                     
                     <!-- Brand Name -->
-                    <h1 class="text-3xl font-bold text-white mb-2">BukuHub</h1>
-                    <p class="text-green-100 text-center text-sm max-w-xs">
-                        Perpustakaan Digital Modern untuk Generasi Digital
-                    </p>
-                    
-                    <!-- Decorative Illustration -->
-                    <div class="mt-8 opacity-40">
-                        <img src="{{ asset('images/auth/decoration.png') }}" alt="Library Decoration" class="w-48 h-auto">
+                    <div class="text-center">
+                        <h1 class="text-4xl font-bold text-white mb-3 flex items-center justify-center gap-3">
+                            <span>BukuHub</span>
+                        </h1>
+                        <p class="text-green-50 text-center text-base max-w-xs font-light tracking-wide">
+                            Perpustakaan Digital Modern untuk Generasi Digital
+                        </p>
                     </div>
                 </div>
                 

@@ -165,6 +165,7 @@
                                 required 
                                 autofocus
                                 placeholder="Masukkan nama lengkap"
+                                @if($user->role === 'user') readonly class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-xl focus:ring-0 focus:border-gray-300 bg-gray-100 cursor-not-allowed text-gray-500" @endif
                             >
                             @error('full_name')
                                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -216,6 +217,7 @@
                                 value="{{ old('email', $user->email) }}" 
                                 required 
                                 placeholder="contoh@email.com"
+                                @if($user->role === 'user') readonly class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-xl focus:ring-0 focus:border-gray-300 bg-gray-100 cursor-not-allowed text-gray-500" @endif
                             >
                             @error('email')
                                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -258,6 +260,7 @@
                                 class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all hover:border-primary-300" 
                                 value="{{ old('phone_number', $user->phone_number) }}" 
                                 placeholder="08xxxxxxxxxx"
+                                @if($user->role === 'user') readonly class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-xl focus:ring-0 focus:border-gray-300 bg-gray-100 cursor-not-allowed text-gray-500" @endif
                             >
                             @error('phone_number')
                                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -282,6 +285,7 @@
                             rows="3"
                             class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all hover:border-primary-300"
                             placeholder="Masukkan alamat lengkap..."
+                            @if($user->role === 'user') readonly class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-xl focus:ring-0 focus:border-gray-300 bg-gray-100 cursor-not-allowed text-gray-500" @endif
                         >{{ old('address', $user->address) }}</textarea>
                         @error('address')
                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>

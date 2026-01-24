@@ -1,59 +1,183 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel Perpustakaan Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A robust and modern Library Management System built with Laravel. This application streamlines the process of managing books, borrowings, users, and reports for libraries. It features a multi-role system (Admin, Librarian, User) and a clean, responsive UI built with Tailwind CSS.
 
-## About Laravel
+## 🚀 Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### core Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Authentication & Authorization**: Secure login system with role-based access control (Admin, Librarian, User).
+- **Book Management**:
+    - CRUD operations for books.
+    - Stock management.
+    - Category categorization.
+    - Book details with rich information.
+- **Borrowing System**:
+    - Users can request to borrow books.
+    - Approval workflow for Admins/Librarians.
+    - Return management with fine calculation (if applicable).
+    - Borrowing history tracking.
+- **User Management**:
+    - Admin can manage users (Add, Edit, Delete).
+    - Profile management for users (Update profile, Change password).
+- **Bookmarking**: Users can bookmark/favorite books for later reference.
+- **Reporting**: Generate and export PDF reports for borrowings and library activities.
+- **Modern UI**: Responsive and interactive design using Tailwind CSS and Alpine.js.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Roles & Permissions
 
-## Learning Laravel
+- **Admin**: Full access to the system. Can manage users, books, categories, approve borrowings, and view all reports.
+- **Librarian**: similar to Admin but focused on day-to-day operations like managing books and borrowings. Restricted from managing other administrators.
+- **User**: Can browse books, request borrowings, manage their profile, and view their own borrowing history.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 🛠 Tech Stack
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Framework**: [Laravel 12.x](https://laravel.com)
+- **Language**: PHP ^8.2
+- **Frontend**:
+    - [Blade Templates](https://laravel.com/docs/blade)
+    - [Tailwind CSS](https://tailwindcss.com) (v3.x)
+    - [Alpine.js](https://alpinejs.dev)
+- **Database**: MySQL
+- **Containerization**: Docker & Docker Compose
+- **PDF Generation**: `barryvdh/laravel-dompdf`
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 💻 Installation
 
-### Premium Partners
+You can set up the project using **Docker** (Recommended) or **Manually**.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Option 1: Docker (Recommended)
 
-## Contributing
+Ensure you have Docker and Docker Compose installed on your machine.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1.  **Clone the repository**
 
-## Code of Conduct
+    ```bash
+    git clone https://github.com/Start-Z/Laravel-Perpustakaan-Management-System.git
+    cd laravel-perpustakaan-management-system
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+2.  **Setup Environment**
+    Copy the example environment file:
 
-## Security Vulnerabilities
+    ```bash
+    cp .env.example .env
+    ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    _Note: The defaults in `docker-compose.yml` usually match the standard `.env` values for Docker. Ensure `DB_HOST=db` in your `.env` file._
 
-## License
+3.  **Start Containers**
+    Build and start the application containers:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    ```bash
+    docker-compose up -d --build
+    ```
+
+4.  **Install Dependencies**
+    Install PHP and Node.js dependencies inside the containers:
+
+    ```bash
+    docker-compose exec app composer install
+    docker-compose exec node npm install
+    docker-compose exec node npm run build
+    ```
+
+5.  **Setup Database**
+    Generate the application key and run migrations with seeders:
+
+    ```bash
+    docker-compose exec app php artisan key:generate
+    docker-compose exec app php artisan migrate --seed
+    ```
+
+6.  **Access the Application**
+    Open your browser and visit: `http://localhost`
+
+### Option 2: Manual Installation
+
+Ensure you have PHP 8.2+, Composer, Node.js, and MySQL installed locally.
+
+1.  **Clone the repository**
+
+    ```bash
+    git clone <repository_url>
+    cd laravel-perpustakaan-management-system
+    ```
+
+2.  **Install PHP Dependencies**
+
+    ```bash
+    composer install
+    ```
+
+3.  **Setup Environment**
+
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    ```
+
+    _Update the `.env` file with your local database credentials (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`)._
+
+4.  **Setup Database**
+    Run migrations and seeders to populate the database with default data:
+
+    ```bash
+    php artisan migrate --seed
+    ```
+
+5.  **Install & Build Frontend Assets**
+
+    ```bash
+    npm install
+    npm run build
+    ```
+
+6.  **Run Development Server**
+    Start the Laravel development server:
+    ```bash
+    php artisan serve
+    ```
+    And in a separate terminal, run the Vite development server (optional if you built assets):
+    ```bash
+    npm run dev
+    ```
+
+---
+
+## 📖 Usage Guide
+
+### Default Login Credentials
+
+The project comes with seeded data for quick testing. Use the following credentials:
+
+| Role          | Email                    | Password   |
+| :------------ | :----------------------- | :--------- |
+| **Admin**     | `admin@perpustakaan.com` | `password` |
+| **Librarian** | `siti@perpustakaan.com`  | `password` |
+| **User**      | `budi.santoso@gmail.com` | `password` |
+
+### Getting Started
+
+1.  **Login** using one of the credentials above.
+2.  **Admin Dashboard**: Navigate to the dashboard to see an overview of library statistics (Books, Users, Borrowings).
+3.  **Manage Books**: Go to the "Books" section to add new titles, update stock, or edit details.
+4.  **Borrowing Process**:
+    - **User**: Browse the catalog -> Click "Pinjam" on a book -> Confirm request.
+    - **Admin/Librarian**: Go to "Peminjaman" -> Approve or Reject the request.
+    - **Return**: When a user returns a book, the Admin/Librarian marks it as returned in the system.
+5.  **Reports**: Generate PDF reports from the reports section to analyze borrowing trends.
+
+## 🤝 Contributing
+
+1.  Fork the repository.
+2.  Create a feature branch (`git checkout -b feature/amazing-feature`).
+3.  Commit your changes (`git commit -m 'Add some amazing feature'`).
+4.  Push to the branch (`git push origin feature/amazing-feature`).
+5.  Open a Pull Request.
+
+## 📝 License
+
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

@@ -61,12 +61,14 @@ Route::middleware(['auth', 'isAdmin', 'verified'])->prefix('admin')->group(funct
     Route::post('/categories', [BookCategoryController::class, 'store'])->name('category.store');
     Route::delete('/categories/{book_category}', [BookCategoryController::class, 'destroy'])->name('category.destroy');
 
-    // User CRUD Routes
-    Route::get('/users', [UserController::class, 'index'])->name('admin.users');
-    Route::get('/users/create', [UserController::class, 'create'])->name('user.create');
-    Route::post('/users', [UserController::class, 'store'])->name('user.store');
-    Route::patch('/users/{user}/role', [UserController::class, 'updateRole'])->name('user.updateRole');
-    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+    // User CRUD Routes - Only for Strict Admins
+    Route::middleware('isStrictAdmin')->group(function () {
+        Route::get('/users', [UserController::class, 'index'])->name('admin.users');
+        Route::get('/users/create', [UserController::class, 'create'])->name('user.create');
+        Route::post('/users', [UserController::class, 'store'])->name('user.store');
+        Route::patch('/users/{user}/role', [UserController::class, 'updateRole'])->name('user.updateRole');
+        Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+    });
 
     // Borrowing Management Routes
     Route::get('/borrowings', [BorrowingController::class, 'index'])->name('admin.borrowings');
