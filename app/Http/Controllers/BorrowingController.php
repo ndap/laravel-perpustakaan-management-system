@@ -21,7 +21,7 @@ class BorrowingController extends Controller
             $query->where('status', $request->status);
         }
 
-        $borrowings = $query->orderBy('created_at', 'desc')->paginate(15);
+        $borrowings = $query->orderBy('created_at', 'desc')->orderBy('id', 'desc')->paginate(15);
 
         // Get counts for each status
         $statusCounts = [

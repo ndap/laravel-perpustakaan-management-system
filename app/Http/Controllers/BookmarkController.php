@@ -17,6 +17,7 @@ class BookmarkController extends Controller
         $bookmarks = bookmark::with('book.categories')
             ->where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
             ->paginate(12);
 
         return view('home.bookmarks', compact('bookmarks'));

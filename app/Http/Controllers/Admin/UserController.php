@@ -34,7 +34,7 @@ class UserController extends Controller
         }
 
         // Order by latest
-        $query->orderBy('created_at', 'desc');
+        $query->orderBy('created_at', 'desc')->orderBy('id', 'desc');
 
         // Paginate
         $users = $query->paginate(10);

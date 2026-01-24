@@ -35,7 +35,7 @@ class HomeController extends Controller
             });
         }
 
-        $books = $query->orderBy('created_at', 'desc')->paginate(12);
+        $books = $query->orderBy('created_at', 'desc')->orderBy('id', 'desc')->paginate(15);
         $categories = book_category::all();
 
         // Statistics
@@ -163,7 +163,7 @@ class HomeController extends Controller
             $query->where('status', $request->status);
         }
 
-        $borrowings = $query->orderBy('created_at', 'desc')->paginate(10);
+        $borrowings = $query->orderBy('created_at', 'desc')->orderBy('id', 'desc')->paginate(10);
 
         return view('home.borrowingHistory', compact('borrowings'));
     }

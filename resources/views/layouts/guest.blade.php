@@ -65,9 +65,9 @@
             <div class="auth-left-panel">
                 <div class="flex-1 flex flex-col items-center justify-center">
                     <!-- Logo Circle -->
-                    <div class="auth-logo-circle mb-8">
+                    <div class="auth-logo-circle mb-9">
                         <div class="auth-logo-inner shadow-lg">
-                            <i class="fas fa-book-open text-6xl text-forest-600"></i>
+                            <i class="fas fa-book-open text-6xl text-forest-800"></i>
                         </div>
                     </div>
                     
@@ -80,11 +80,6 @@
                             Perpustakaan Digital Modern untuk Generasi Digital
                         </p>
                     </div>
-                </div>
-                
-                <!-- Asset Label -->
-                <div class="auth-asset-label">
-                    Digital Library Asset
                 </div>
             </div>
             

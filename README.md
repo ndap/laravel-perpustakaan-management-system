@@ -118,22 +118,6 @@ Buat lo yang suka setup manual di local (XAMPP/Laragon/Valet).
 
 </details>
 
----
-
-## 🔑 Default Accounts (Akun Bawaan)
-
-Jangan bingung login pake apa, kita udah siapin akun *dummy* hasil seeding:
-
-| Role | Username | Password | Access Level |
-| :--- | :--- | :--- | :--- |
-| **Administrator** | `admin` | `password` | 🟥 Highest |
-| **Librarian** | `siti.librarian` | `password` | 🟦 Medium |
-| **User** | `dafa.ali` | `password` | 🟩 Standard |
-
-> ⚠️ **Note:** Password-nya emang `password` semua biar gampang diinget pas testing. Jangan lupa diganti kalo mau dipake serius!
-
----
-
 ## ⚡ Helper Scripts (Docker Users)
 
 Biar gak capek ngetik `docker-compose exec ...` terus, pake ginian aja:

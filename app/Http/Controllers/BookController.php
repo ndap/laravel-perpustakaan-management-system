@@ -35,7 +35,7 @@ class BookController extends Controller
             });
         }
 
-        $books = $query->orderBy('created_at', 'desc')->paginate(10);
+        $books = $query->orderBy('created_at', 'desc')->orderBy('id', 'desc')->paginate(15);
         $categories = book_category::all();
 
         return view('admin.bookManagement', compact('books', 'categories'));

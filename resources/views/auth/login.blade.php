@@ -10,7 +10,6 @@
 
     <form method="POST" action="{{ route('login') }}">
         @csrf
-
         <!-- Email or Username -->
         <div class="mb-5">
             <label for="login" class="auth-label block mb-2 text-sm font-semibold text-gray-700">Email / Username</label>
