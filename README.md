@@ -1,183 +1,170 @@
-# Laravel Perpustakaan Management System
+# Laravel Library Management System (Sistem Manajemen Perpustakaan)
 
-A robust and modern Library Management System built with Laravel. This application streamlines the process of managing books, borrowings, users, and reports for libraries. It features a multi-role system (Admin, Librarian, User) and a clean, responsive UI built with Tailwind CSS.
+Welcome to the Laravel Library Management System! This is a robust web application designed to manage library operations efficiently. It includes features for book management, member management, borrowing/returning processes, and reporting.
 
 ## 🚀 Features
 
-### core Features
-
-- **Authentication & Authorization**: Secure login system with role-based access control (Admin, Librarian, User).
-- **Book Management**:
-    - CRUD operations for books.
-    - Stock management.
-    - Category categorization.
-    - Book details with rich information.
-- **Borrowing System**:
-    - Users can request to borrow books.
-    - Approval workflow for Admins/Librarians.
-    - Return management with fine calculation (if applicable).
-    - Borrowing history tracking.
-- **User Management**:
-    - Admin can manage users (Add, Edit, Delete).
-    - Profile management for users (Update profile, Change password).
-- **Bookmarking**: Users can bookmark/favorite books for later reference.
-- **Reporting**: Generate and export PDF reports for borrowings and library activities.
-- **Modern UI**: Responsive and interactive design using Tailwind CSS and Alpine.js.
-
-### Roles & Permissions
-
-- **Admin**: Full access to the system. Can manage users, books, categories, approve borrowings, and view all reports.
-- **Librarian**: similar to Admin but focused on day-to-day operations like managing books and borrowings. Restricted from managing other administrators.
-- **User**: Can browse books, request borrowings, manage their profile, and view their own borrowing history.
-
-## 🛠 Tech Stack
-
-- **Framework**: [Laravel 12.x](https://laravel.com)
-- **Language**: PHP ^8.2
-- **Frontend**:
-    - [Blade Templates](https://laravel.com/docs/blade)
-    - [Tailwind CSS](https://tailwindcss.com) (v3.x)
-    - [Alpine.js](https://alpinejs.dev)
-- **Database**: MySQL
-- **Containerization**: Docker & Docker Compose
-- **PDF Generation**: `barryvdh/laravel-dompdf`
+- **User Roles & Authentication**:
+    - **Admin**: Full access to the system, user management, and configuration.
+    - **Librarian**: Manage books, categories, and borrowing transactions.
+    - **Member (User)**: Browse books, view borrowing history, and bookmark books.
+- **Book Management**: Add, edit, delete books, and manage stock.
+- **Category Management**: Organize books into categories.
+- **Borrowing System**: Streamlined process for borrowing and returning books with status tracking.
+- **Reporting**: Generate reports (PDF support included).
+- **Responsive Design**: Modern UI built with Tailwind CSS.
 
 ---
 
-## 💻 Installation
+## 🛠️ Installation / Penginstallan
 
-You can set up the project using **Docker** (Recommended) or **Manually**.
+You have two options to install and run this project:
 
-### Option 1: Docker (Recommended)
+1.  **Option 1: Docker (Recommended)** - Automated setup using a shell script.
+2.  **Option 2: Manual Installation** - Standard Laravel setup.
 
-Ensure you have Docker and Docker Compose installed on your machine.
+### Option 1: Docker Installation (Recommended)
 
-1.  **Clone the repository**
+This method is the easiest and ensures your environment matches dependencies exactly. We have provided a helper script to automate the process.
+
+**Prerequisites:**
+
+- Docker & Docker Compose installed on your machine.
+- Linux/Mac environment (or WSL2 on Windows).
+
+**Steps:**
+
+1.  **Clone the repository** (if you haven't already):
 
     ```bash
-    git clone https://github.com/Start-Z/Laravel-Perpustakaan-Management-System.git
+    git clone <repository-url>
     cd laravel-perpustakaan-management-system
     ```
 
-2.  **Setup Environment**
-    Copy the example environment file:
+2.  **Run the automated install script**:
+
+    Make sure the script is executable and run it:
 
     ```bash
-    cp .env.example .env
+    chmod +x install.sh
+    ./install.sh
     ```
 
-    _Note: The defaults in `docker-compose.yml` usually match the standard `.env` values for Docker. Ensure `DB_HOST=db` in your `.env` file._
+    > **What does this script do?**
+    >
+    > - Sets executable permissions for helper scripts (`start.sh`, `stop.sh`, etc.).
+    > - Starts the Docker containers (Nginx, PHP, MySQL, Node).
+    > - Installs PHP dependencies via Composer.
+    > - Generates the application key.
+    > - Runs database migrations and seeds dummy data.
+    > - Installs Node.js dependencies and builds frontend assets.
 
-3.  **Start Containers**
-    Build and start the application containers:
+3.  **Access the Application**:
+    Once the script finishes successfully, open your browser and go to:
 
-    ```bash
-    docker-compose up -d --build
-    ```
+    [http://localhost](http://localhost)
 
-4.  **Install Dependencies**
-    Install PHP and Node.js dependencies inside the containers:
-
-    ```bash
-    docker-compose exec app composer install
-    docker-compose exec node npm install
-    docker-compose exec node npm run build
-    ```
-
-5.  **Setup Database**
-    Generate the application key and run migrations with seeders:
-
-    ```bash
-    docker-compose exec app php artisan key:generate
-    docker-compose exec app php artisan migrate --seed
-    ```
-
-6.  **Access the Application**
-    Open your browser and visit: `http://localhost`
+---
 
 ### Option 2: Manual Installation
 
-Ensure you have PHP 8.2+, Composer, Node.js, and MySQL installed locally.
+If you prefer running PHP locally or don't have Docker, follow these steps.
 
-1.  **Clone the repository**
+**Prerequisites:**
+
+- PHP >= 8.2
+- Composer
+- Node.js & NPM
+- MySQL Database
+
+**Steps:**
+
+1.  **Clone the repository**:
 
     ```bash
-    git clone <repository_url>
+    git clone <repository-url>
     cd laravel-perpustakaan-management-system
     ```
 
-2.  **Install PHP Dependencies**
+2.  **Install PHP Dependencies**:
 
     ```bash
     composer install
     ```
 
-3.  **Setup Environment**
+3.  **Setup Environment File**:
+    Copy the example .env file and configure it.
 
     ```bash
     cp .env.example .env
+    ```
+
+    Open `.env` and set your database credentials:
+
+    ```env
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=ukk_library_db
+    DB_USERNAME=root
+    DB_PASSWORD=your_password
+    ```
+
+4.  **Generate Application Key**:
+
+    ```bash
     php artisan key:generate
     ```
 
-    _Update the `.env` file with your local database credentials (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`)._
-
-4.  **Setup Database**
-    Run migrations and seeders to populate the database with default data:
+5.  **Run Migrations & Seeders**:
+    This will create tables and insert dummy data.
 
     ```bash
     php artisan migrate --seed
     ```
 
-5.  **Install & Build Frontend Assets**
+6.  **Install & Build Frontend**:
 
     ```bash
     npm install
     npm run build
     ```
 
-6.  **Run Development Server**
-    Start the Laravel development server:
+7.  **Run Local Server**:
     ```bash
     php artisan serve
     ```
-    And in a separate terminal, run the Vite development server (optional if you built assets):
-    ```bash
-    npm run dev
-    ```
+    Access at: [http://localhost:8000](http://localhost:8000)
 
 ---
 
-## 📖 Usage Guide
+## 🔑 Default Accounts (Akun Bawaan)
 
-### Default Login Credentials
+The database seeding process creates several default accounts for testing:
 
-The project comes with seeded data for quick testing. Use the following credentials:
+| Role              | Username         | Password   |
+| :---------------- | :--------------- | :--------- |
+| **Administrator** | `admin`          | `password` |
+| **Librarian**     | `siti.librarian` | `password` |
+| **User**          | `dafa.ali`       | `password` |
+| **User**          | `budi.santoso`   | `password` |
 
-| Role          | Email                    | Password   |
-| :------------ | :----------------------- | :--------- |
-| **Admin**     | `admin@perpustakaan.com` | `password` |
-| **Librarian** | `siti@perpustakaan.com`  | `password` |
-| **User**      | `budi.santoso@gmail.com` | `password` |
+> **Note**: All default passwords are set to `password`.
 
-### Getting Started
+---
 
-1.  **Login** using one of the credentials above.
-2.  **Admin Dashboard**: Navigate to the dashboard to see an overview of library statistics (Books, Users, Borrowings).
-3.  **Manage Books**: Go to the "Books" section to add new titles, update stock, or edit details.
-4.  **Borrowing Process**:
-    - **User**: Browse the catalog -> Click "Pinjam" on a book -> Confirm request.
-    - **Admin/Librarian**: Go to "Peminjaman" -> Approve or Reject the request.
-    - **Return**: When a user returns a book, the Admin/Librarian marks it as returned in the system.
-5.  **Reports**: Generate PDF reports from the reports section to analyze borrowing trends.
+## 📜 Helper Scripts
 
-## 🤝 Contributing
+The project includes several shell scripts to make your life easier (especially if using Docker):
 
-1.  Fork the repository.
-2.  Create a feature branch (`git checkout -b feature/amazing-feature`).
-3.  Commit your changes (`git commit -m 'Add some amazing feature'`).
-4.  Push to the branch (`git push origin feature/amazing-feature`).
-5.  Open a Pull Request.
+- `./install.sh`: Full automated setup for Docker.
+- `./start.sh`: Starts the Docker containers.
+- `./stop.sh`: Stops the Docker containers.
+- `./artisan.sh`: Runs Artisan commands inside the Docker container (e.g., `./artisan.sh migrate`).
+- `./npm.sh`: Runs NPM commands inside the Docker container.
 
-## 📝 License
+---
 
-This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 📄 License
+
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
