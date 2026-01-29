@@ -80,11 +80,17 @@ Route::middleware(['auth', 'isAdmin', 'verified'])->prefix('admin')->group(funct
         return view('admin.reportGenerate', compact('categories'));
     })->name('admin.reports');
 
-    // Report Generation Routes
+    // PDF Report Generation Routes
     Route::post('/reports/borrowing', [ReportController::class, 'borrowingReport'])->name('report.borrowing');
     Route::post('/reports/books', [ReportController::class, 'bookReport'])->name('report.books');
     Route::post('/reports/users', [ReportController::class, 'userReport'])->name('report.users');
     Route::post('/reports/statistics', [ReportController::class, 'statisticsReport'])->name('report.statistics');
+
+    // Excel Export Routes
+    Route::post('/reports/borrowing/excel', [ReportController::class, 'borrowingReportExcel'])->name('report.borrowing.excel');
+    Route::post('/reports/books/excel', [ReportController::class, 'bookReportExcel'])->name('report.books.excel');
+    Route::post('/reports/users/excel', [ReportController::class, 'userReportExcel'])->name('report.users.excel');
+    Route::post('/reports/statistics/excel', [ReportController::class, 'statisticsReportExcel'])->name('report.statistics.excel');
 });
 
 require __DIR__ . '/auth.php';

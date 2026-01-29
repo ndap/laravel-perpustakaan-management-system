@@ -1,4 +1,11 @@
-<x-home-layout>
+@php
+    $layout = 'home-layout';
+    if(auth()->check() && in_array(auth()->user()->role, ['admin', 'librarian'])) {
+        $layout = 'admin-layout';
+    }
+@endphp
+
+<x-dynamic-component :component="$layout">
     <x-slot name="title">{{ $book->title }}</x-slot>
 
     <!-- Flash Messages -->
@@ -586,4 +593,4 @@
             });
         }
     </script>
-</x-home-layout>
+</x-dynamic-component>

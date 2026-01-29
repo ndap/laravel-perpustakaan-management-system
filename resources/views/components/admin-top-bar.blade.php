@@ -9,7 +9,7 @@
     <!-- Brand Logo -->
     <a href="/admin/dashboard" class="top-bar-brand">
         <span><i class="fas fa-book"></i></span>
-        <span>BukuHub Admin</span>
+        <span>BukuHub {{ Auth::user()->role }}</span>
     </a>
     
     <!-- Profile Section -->
