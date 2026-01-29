@@ -8,6 +8,7 @@ use App\Models\borrowing;
 use App\Models\bookmark;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class HomeController extends Controller
 {
@@ -166,5 +167,29 @@ class HomeController extends Controller
         $borrowings = $query->orderBy('created_at', 'desc')->orderBy('id', 'desc')->paginate(10);
 
         return view('home.borrowingHistory', compact('borrowings'));
+    }
+
+    /**
+     * Download borrowing proof as PDF
+     */
+    public function downloadBorrowingProof($id)
+    {
+        // Find the borrowing record
+        $borrowing = borrowing::with(['book', 'user', 'approvedBy'])
+            ->where('id', $id)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        // Only allow download for approved borrowings
+        if ($borrowing->status !== 'approved') {
+            return redirect()->route('home.borrowingHistory')
+                ->with('error', 'Bukti peminjaman hanya tersedia untuk peminjaman yang sudah disetujui.');
+        }
+
+        // Generate PDF
+        $pdf = Pdf::loadView('home.borrowing_proof', compact('borrowing'));
+
+        // Download PDF with filename
+        return $pdf->download('bukti-peminjaman-' . $borrowing->id . '.pdf');
     }
 }

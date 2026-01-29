@@ -69,7 +69,11 @@
                         </label>
                         <div class="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200">
                             <div class="w-10 h-10 bg-gradient-to-br from-primary-100 to-emerald-100 rounded-full flex items-center justify-center text-primary-700 font-semibold">
-                                {{ strtoupper(substr($user->name, 0, 2)) }}
+                                @if ($user->profile_picture)
+                                    <img src="{{ asset('storage/' . $user->profile_picture) }}" alt="Profile Picture" class="w-full h-full object-cover rounded-full">
+                                @else
+                                    {{ strtoupper(substr($user->name, 0, 2)) }}
+                                @endif
                             </div>
                             <div>
                                 <p class="font-semibold text-gray-900">{{ $user->name }}</p>

@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['isUser', 'verified'])->group(function () {
         Route::get('/dashboard', [HomeController::class, 'catalogue'])->name('dashboard');
         Route::get('/borrowing-history', [HomeController::class, 'myBorrowings'])->name('home.borrowingHistory');
+        Route::get('/borrowing-proof/{id}/download', [HomeController::class, 'downloadBorrowingProof'])->name('home.borrowingProof.download');
         Route::get('/book/{book}/borrow', [HomeController::class, 'borrowingForm'])->name('home.borrowingForm');
         Route::post('/book/{book}/borrow', [HomeController::class, 'storeBorrowing'])->name('home.storeBorrowing');
 
