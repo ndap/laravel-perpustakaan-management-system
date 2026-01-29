@@ -4,228 +4,235 @@
     <meta charset="utf-8">
     <title>Laporan Peminjaman Buku</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* 1. SETUP HALAMAN & MARGIN (Kunci agar tidak terpotong saat print) */
+        @page {
+            margin: 2.5cm 2cm; /* Atas-Bawah 2.5cm, Kiri-Kanan 2cm */
+            size: A4;
         }
-        
+
         body {
-            font-family: 'DejaVu Sans', Arial, sans-serif;
-            font-size: 11px;
-            line-height: 1.4;
-            color: #333;
+            font-family: 'DejaVu Sans', Helvetica, Arial, sans-serif;
+            font-size: 10pt;
+            line-height: 1.5;
+            color: #2d3748; /* Abu-abu gelap (Professional standard) */
         }
-        
+
+        /* 2. HEADER MINIMALIS */
         .header {
             text-align: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid #059669;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #059669; /* Hijau Emerald */
+            padding-bottom: 10px;
         }
-        
+
         .header h1 {
-            font-size: 20px;
-            color: #059669;
-            margin-bottom: 5px;
+            font-size: 18pt;
+            color: #064e3b; /* Hijau yang sangat gelap */
+            margin: 0 0 5px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        
+
         .header h2 {
-            font-size: 16px;
-            color: #333;
+            font-size: 12pt;
+            color: #64748b;
+            margin: 0;
             font-weight: normal;
         }
-        
-        .period {
-            text-align: center;
-            background: #f0fdf4;
-            padding: 10px;
-            margin: 15px 0;
-            border-radius: 5px;
-            border: 1px solid #059669;
+
+        /* 3. INFO PERIODE (Dibuat list rapi, bukan kotak warna-warni) */
+        .meta-info {
+            margin-bottom: 25px;
+            font-size: 10pt;
         }
         
-        .period strong {
-            color: #059669;
+        .meta-info table {
+            width: auto; /* Agar tidak memakan lebar penuh jika tidak perlu */
+            border: none;
         }
         
-        .statistics {
-            display: table;
+        .meta-info td {
+            padding: 4px 10px 4px 0;
+            border: none;
+        }
+
+        /* 4. STATISTIK (Menggunakan Tabel Layout agar kokoh di PDF) */
+        .stats-container {
             width: 100%;
-            margin: 15px 0;
+            margin-bottom: 30px;
+            border-collapse: separate;
+            border-spacing: 5px 0; /* Jarak antar kotak */
         }
-        
-        .stat-item {
-            display: table-cell;
-            width: 20%;
+
+        .stat-box {
+            background-color: #f0fdf4; /* Hijau sangat muda */
+            border: 1px solid #bbf7d0;
             padding: 10px;
             text-align: center;
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            width: 20%; /* Membagi 5 kolom sama rata */
         }
-        
-        .stat-item .label {
-            font-size: 9px;
-            color: #6b7280;
+
+        .stat-label {
+            font-size: 7pt;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #64748b;
             margin-bottom: 5px;
         }
-        
-        .stat-item .value {
-            font-size: 18px;
+
+        .stat-value {
+            font-size: 14pt;
             font-weight: bold;
             color: #059669;
         }
-        
-        table {
+
+        /* 5. TABEL DATA (Clean Style - Horizontal Lines Only) */
+        .data-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 15px 0;
+            margin-bottom: 20px;
         }
-        
-        table thead {
-            background: #059669;
-            color: white;
-        }
-        
-        table thead th {
+
+        .data-table thead th {
+            background-color: #065f46; /* Hijau Tua */
+            color: #ffffff;
             padding: 10px 8px;
             text-align: left;
-            font-weight: bold;
-            font-size: 10px;
-        }
-        
-        table tbody tr {
-            border-bottom: 1px solid #e5e7eb;
-        }
-        
-        table tbody tr:nth-child(even) {
-            background: #f9fafb;
-        }
-        
-        table tbody td {
-            padding: 8px;
-            font-size: 10px;
-        }
-        
-        .status {
-            padding: 3px 8px;
-            border-radius: 3px;
-            font-size: 9px;
-            font-weight: bold;
+            font-size: 9pt;
             text-transform: uppercase;
+            font-weight: 600;
         }
-        
-        .status.pending {
-            background: #fef3c7;
-            color: #92400e;
+
+        .data-table tbody td {
+            padding: 8px;
+            border-bottom: 1px solid #e2e8f0; /* Garis tipis */
+            font-size: 9pt;
+            vertical-align: middle;
         }
-        
-        .status.approved {
-            background: #dbeafe;
-            color: #1e40af;
+
+        .data-table tbody tr:nth-child(even) {
+            background-color: #f8fafc; /* Zebra striping halus */
         }
-        
-        .status.returned {
-            background: #d1fae5;
-            color: #065f46;
+
+        /* 6. STATUS BADGES (Pill Shape) */
+        .status-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px; /* Dibuat bulat lonjong */
+            font-size: 8pt;
+            font-weight: bold;
+            text-transform: capitalize;
         }
-        
-        .status.rejected {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-        
+
+        .status-pending { background: #fffbeb; color: #b45309; border: 1px solid #fcd34d; }
+        .status-approved { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+        .status-returned { background: #f0fdf4; color: #15803d; border: 1px solid #86efac; }
+        .status-rejected { background: #fef2f2; color: #b91c1c; border: 1px solid #fca5a5; }
+
         .footer {
-            margin-top: 20px;
+            margin-top: 40px;
             padding-top: 10px;
-            border-top: 1px solid #e5e7eb;
-            text-align: center;
-            font-size: 9px;
-            color: #6b7280;
+            border-top: 1px solid #cbd5e1;
+            font-size: 8pt;
+            color: #94a3b8;
+            text-align: right;
         }
-        
-        .no-data {
-            text-align: center;
-            padding: 30px;
-            color: #6b7280;
-            font-style: italic;
-        }
+
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
     </style>
 </head>
 <body>
+
     <div class="header">
-        <h1>SISTEM PERPUSTAKAAN</h1>
+        <h1>Sistem Perpustakaan</h1>
         <h2>Laporan Peminjaman Buku</h2>
     </div>
 
-    <div class="period">
-        <strong>Periode:</strong> {{ $startDate->format('d F Y') }} - {{ $endDate->format('d F Y') }}
+    <div class="meta-info">
+        <table>
+            <tr>
+                <td style="font-weight: bold; width: 100px;">Periode</td>
+                <td>: {{ $startDate->format('d F Y') }} - {{ $endDate->format('d F Y') }}</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;">Total Data</td>
+                <td>: {{ $statistics['total'] }} Transaksi</td>
+            </tr>
+        </table>
     </div>
 
-    <div class="statistics">
-        <div class="stat-item">
-            <div class="label">Total</div>
-            <div class="value">{{ $statistics['total'] }}</div>
-        </div>
-        <div class="stat-item">
-            <div class="label">Pending</div>
-            <div class="value" style="color: #d97706;">{{ $statistics['pending'] }}</div>
-        </div>
-        <div class="stat-item">
-            <div class="label">Disetujui</div>
-            <div class="value" style="color: #2563eb;">{{ $statistics['approved'] }}</div>
-        </div>
-        <div class="stat-item">
-            <div class="label">Dikembalikan</div>
-            <div class="value" style="color: #059669;">{{ $statistics['returned'] }}</div>
-        </div>
-        <div class="stat-item">
-            <div class="label">Ditolak</div>
-            <div class="value" style="color: #dc2626;">{{ $statistics['rejected'] }}</div>
-        </div>
-    </div>
+    <table class="stats-container">
+        <tr>
+            <td class="stat-box">
+                <div class="stat-label">Total Pinjam</div>
+                <div class="stat-value">{{ $statistics['total'] }}</div>
+            </td>
+            <td class="stat-box">
+                <div class="stat-label">Pending</div>
+                <div class="stat-value" style="color: #d97706;">{{ $statistics['pending'] }}</div>
+            </td>
+            <td class="stat-box">
+                <div class="stat-label">Disetujui</div>
+                <div class="stat-value" style="color: #2563eb;">{{ $statistics['approved'] }}</div>
+            </td>
+            <td class="stat-box">
+                <div class="stat-label">Kembali</div>
+                <div class="stat-value" style="color: #059669;">{{ $statistics['returned'] }}</div>
+            </td>
+            <td class="stat-box">
+                <div class="stat-label">Ditolak</div>
+                <div class="stat-value" style="color: #dc2626;">{{ $statistics['rejected'] }}</div>
+            </td>
+        </tr>
+    </table>
 
     @if($borrowings->count() > 0)
-        <table>
+        <table class="data-table">
             <thead>
                 <tr>
-                    <th style="width: 5%;">No</th>
+                    <th style="width: 5%;" class="text-center">No</th>
                     <th style="width: 20%;">Peminjam</th>
                     <th style="width: 25%;">Judul Buku</th>
-                    <th style="width: 12%;">Tgl Pinjam</th>
-                    <th style="width: 12%;">Tgl Kembali</th>
-                    <th style="width: 12%;">Status</th>
-                    <th style="width: 14%;">Disetujui Oleh</th>
+                    <th style="width: 12%;" class="text-center">Tgl Pinjam</th>
+                    <th style="width: 12%;" class="text-center">Tgl Kembali</th>
+                    <th style="width: 13%;" class="text-center">Status</th>
+                    <th style="width: 13%;">Validator</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($borrowings as $index => $borrowing)
                     <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $borrowing->user->full_name }}</td>
-                        <td>{{ $borrowing->book->title }}</td>
-                        <td>{{ $borrowing->borrow_date->format('d/m/Y') }}</td>
-                        <td>{{ $borrowing->return_date->format('d/m/Y') }}</td>
+                        <td class="text-center">{{ $index + 1 }}</td>
                         <td>
-                            <span class="status {{ $borrowing->status }}">
+                            <strong>{{ $borrowing->user->full_name }}</strong>
+                        </td>
+                        <td>{{ $borrowing->book->title }}</td>
+                        <td class="text-center">{{ $borrowing->borrow_date->format('d/m/y') }}</td>
+                        <td class="text-center">{{ $borrowing->return_date->format('d/m/y') }}</td>
+                        <td class="text-center">
+                            <span class="status-badge status-{{ $borrowing->status }}">
                                 {{ ucfirst($borrowing->status) }}
                             </span>
                         </td>
-                        <td>{{ $borrowing->approvedBy?->full_name ?? '-' }}</td>
+                        <td style="font-size: 8pt; color: #64748b;">
+                            {{ $borrowing->approvedBy?->full_name ?? '-' }}
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
     @else
-        <div class="no-data">
+        <div style="text-align: center; padding: 30px; color: #64748b; border: 1px dashed #cbd5e1; border-radius: 4px;">
             Tidak ada data peminjaman dalam periode yang dipilih.
         </div>
     @endif
 
     <div class="footer">
-        <div>Laporan di-generate pada: {{ $generatedAt->format('d F Y H:i:s') }}</div>
-        <div>Sistem Perpustakaan © {{ date('Y') }}</div>
+        Dicetak pada: {{ $generatedAt->format('d F Y, H:i') }} WIB <br>
+        Halaman <span class="page-number"></span>
     </div>
+
 </body>
 </html>
