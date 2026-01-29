@@ -102,7 +102,7 @@
         </div>
     @else
         <!-- Bookmarks Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             @foreach($bookmarks as $bookmark)
                 <div class="group bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
                     <!-- Book Cover -->
@@ -155,37 +155,37 @@
                     </a>
 
                     <!-- Book Info -->
-                    <div class="p-5">
-                        <!-- Categories -->
-                        @if($bookmark->book->categories->count() > 0)
-                            <div class="flex flex-wrap gap-1.5 mb-3">
-                                @foreach($bookmark->book->categories->take(2) as $category)
-                                    <span class="inline-flex items-center px-2.5 py-1 bg-gradient-to-r from-primary-50 to-emerald-50 text-primary-700 text-xs font-semibold rounded-full ring-1 ring-primary-200">
-                                        {{ $category->category_name }}
-                                    </span>
-                                @endforeach
-                                @if($bookmark->book->categories->count() > 2)
-                                    <span class="inline-flex items-center px-2.5 py-1 bg-gray-100 text-gray-600 text-xs font-semibold rounded-full">
-                                        +{{ $bookmark->book->categories->count() - 2 }}
-                                    </span>
-                                @endif
-                            </div>
-                        @endif
-
+                    <div class="p-4">
                         <!-- Title -->
                         <a href="{{ route('home.bookDetail', $bookmark->book) }}" class="block">
-                            <h3 class="font-bold text-lg text-gray-900 line-clamp-2 group-hover:text-primary-700 transition-colors mb-2">
+                            <h3 class="font-semibold text-sm text-gray-900 line-clamp-2 group-hover:text-primary-700 transition-colors mb-1">
                                 {{ $bookmark->book->title }}
                             </h3>
                         </a>
 
                         <!-- Author -->
-                        <p class="text-sm text-gray-600 mb-4 flex items-center gap-1.5">
+                        <p class="text-xs text-gray-600 mb-2 flex items-center gap-1">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                             </svg>
                             {{ $bookmark->book->author }}
                         </p>
+
+                        <!-- Categories -->
+                        @if($bookmark->book->categories->count() > 0)
+                            <div class="flex flex-wrap gap-1 mb-3">
+                                @foreach($bookmark->book->categories->take(2) as $category)
+                                    <span class="inline-block px-2 py-0.5 bg-primary-50 text-primary-700 text-xs font-medium rounded-full">
+                                        {{ $category->category_name }}
+                                    </span>
+                                @endforeach
+                                @if($bookmark->book->categories->count() > 2)
+                                    <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
+                                        +{{ $bookmark->book->categories->count() - 2 }}
+                                    </span>
+                                @endif
+                            </div>
+                        @endif
 
                         <!-- Actions -->
                         <div class="flex gap-2">

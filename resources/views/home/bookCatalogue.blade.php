@@ -113,7 +113,7 @@
                     <option value="">Semua Kategori</option>
                     @foreach($categories as $category)
                         <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
-                            {{ $category->name }}
+                            {{ $category->category_name }}
                         </option>
                     @endforeach
                 </select>
@@ -205,7 +205,7 @@
                                 <div class="flex flex-wrap gap-1">
                                     @foreach($book->categories->take(2) as $category)
                                         <span class="inline-block px-2 py-0.5 bg-primary-50 text-primary-700 text-xs font-medium rounded-full">
-                                            {{ $category->name }}
+                                            {{ $category->category_name }}
                                         </span>
                                     @endforeach
                                     @if($book->categories->count() > 2)

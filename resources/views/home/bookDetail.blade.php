@@ -73,15 +73,18 @@
             <div class="lg:col-span-2 p-8">
                 <!-- Category Badges -->
                 @if($book->categories->count() > 0)
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        @foreach($book->categories as $category)
-                            <span class="inline-flex items-center px-3 py-1 bg-gradient-to-r from-primary-50 to-emerald-50 text-primary-700 text-sm font-medium rounded-full border border-primary-200">
-                                <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
-                                </svg>
-                                {{ $category->name }}
-                            </span>
-                        @endforeach
+                    <div class="mb-4">
+                        <div class="flex items-center gap-2 mb-2">
+                            <svg class="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                            </svg>
+                            <h3 class="text-sm font-semibold text-gray-700 uppercase tracking-wide">Kategori</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach($book->categories as $category)
+                                <x-category-badge :category="$category" />
+                            @endforeach
+                        </div>
                     </div>
                 @endif
 
@@ -336,16 +339,22 @@
                 </h3>
 
                 @forelse($reviews as $review)
-                    <div class="border border-gray-200 rounded-xl p-5 hover:border-primary-200 transition-colors">
+                    <div class="border border-gray-200 rounded-xl p-5 hover:border-primary-200 hover:shadow-sm transition-all">
                         <div class="flex items-start justify-between mb-3">
-                            <div class="flex items-center gap-3">
-                                <!-- User Avatar -->
-                                <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-emerald-600 rounded-full flex items-center justify-center text-white font-bold">
-                                    {{ strtoupper(substr($review->user->full_name ?? $review->user->username, 0, 1)) }}
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold text-gray-900">{{ $review->user->full_name ?? $review->user->username }}</h4>
-                                    <div class="flex items-center gap-2">
+                            <div class="flex items-start gap-3">
+                                <!-- User Avatar with Profile Photo -->
+                                <x-user-avatar :user="$review->user" size="md" />
+                                
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <h4 class="font-semibold text-gray-900">{{ $review->user->full_name ?? $review->user->username }}</h4>
+                                        @if($review->user->role === 'admin')
+                                            <span class="text-xs px-2 py-0.5 bg-red-100 text-red-700 rounded-full font-medium">Admin</span>
+                                        @elseif($review->user->role === 'librarian')
+                                            <span class="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full font-medium">Librarian</span>
+                                        @endif
+                                    </div>
+                                    <div class="flex items-center gap-2 mb-2">
                                         <!-- Star Rating Display -->
                                         <div class="flex">
                                             @for($i = 1; $i <= 5; $i++)
@@ -354,8 +363,13 @@
                                                 </svg>
                                             @endfor
                                         </div>
+                                        <span class="text-sm font-medium text-amber-600">{{ $review->rating }}.0</span>
+                                        <span class="text-gray-300">•</span>
                                         <span class="text-xs text-gray-500">{{ $review->created_at->diffForHumans() }}</span>
                                     </div>
+                                    
+                                    <!-- Review Text -->
+                                    <p class="text-gray-700 leading-relaxed">{{ $review->review }}</p>
                                 </div>
                             </div>
 
@@ -364,7 +378,7 @@
                                 <form action="{{ route('review.destroy', $review) }}" method="POST" class="inline" onsubmit="event.preventDefault(); Swal.fire({ title: 'Hapus Ulasan?', text: 'Hapus ulasan ini?', icon: 'warning', showCancelButton: true, confirmButtonColor: '#10b981', cancelButtonColor: '#ef4444', confirmButtonText: 'Ya, Hapus', cancelButtonText: 'Batal' }).then((result) => { if (result.isConfirmed) { event.target.submit(); } });">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-700 transition-colors">
+                                    <button type="submit" class="text-red-600 hover:text-red-700 transition-colors p-1 hover:bg-red-50 rounded-lg" title="Hapus ulasan">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                         </svg>
@@ -372,9 +386,6 @@
                                 </form>
                             @endif
                         </div>
-
-                        <!-- Review Text -->
-                        <p class="text-gray-700 leading-relaxed">{{ $review->review }}</p>
                     </div>
                 @empty
                     <div class="text-center py-12 bg-gray-50 rounded-xl">
@@ -407,33 +418,21 @@
             </div>
             
             <div class="p-6">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
                     @foreach($relatedBooks as $relatedBook)
-                        <a href="{{ route('home.bookDetail', $relatedBook) }}" class="group block">
-                            <div class="bg-gray-50 rounded-xl p-4 hover:bg-primary-50 transition-all duration-300 border border-gray-100 hover:border-primary-200">
-                                <div class="aspect-[2/3] bg-gradient-to-br from-primary-100 to-emerald-100 rounded-lg overflow-hidden mb-3">
-                                    @if($relatedBook->image)
-                                        <img 
-                                            src="{{ Storage::url($relatedBook->image) }}" 
-                                            alt="{{ $relatedBook->title }}" 
-                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                        >
-                                    @else
-                                        <div class="w-full h-full flex items-center justify-center">
-                                            <svg class="w-10 h-10 text-primary-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                                            </svg>
-                                        </div>
-                                    @endif
-                                </div>
-                                <h4 class="font-semibold text-gray-900 text-sm line-clamp-2 group-hover:text-primary-700 transition-colors">
-                                    {{ $relatedBook->title }}
-                                </h4>
-                                <p class="text-xs text-gray-500 mt-1">{{ $relatedBook->author }}</p>
-                            </div>
-                        </a>
+                        <x-book-card :book="$relatedBook" />
                     @endforeach
                 </div>
+                
+                @if($relatedBooks->count() === 0)
+                    <div class="text-center py-12 bg-gray-50 rounded-xl">
+                        <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        </svg>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Tidak Ada Buku Terkait</h3>
+                        <p class="text-gray-600">Belum ada buku lain dengan kategori yang sama.</p>
+                    </div>
+                @endif
             </div>
         </div>
     @endif

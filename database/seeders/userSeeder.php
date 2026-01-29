@@ -16,7 +16,7 @@ class userSeeder extends Seeder
     {
         // admin
         User::create([
-            'full_name' => 'Admin',
+            'full_name' => 'Mujiyono admin disini',
             'username' => 'admin',
             'email' => 'ndapu2401@gmail.com',
             'phone_number' => '081234567890',
@@ -27,7 +27,7 @@ class userSeeder extends Seeder
 
         // librarian
         User::create([
-            'full_name' => 'Librarian',
+            'full_name' => 'Rusmono librarian disini',
             'username' => 'librarian',
             'email' => 'yoruoura@gmail.com',
             'phone_number' => '081234567891',
@@ -38,7 +38,7 @@ class userSeeder extends Seeder
 
         // user
         User::create([
-            'full_name' => 'User',
+            'full_name' => 'Bagyo user pertama disini',
             'username' => 'user',
             'email' => 'upskiel@gmail.com',
             'phone_number' => '081234567892',
@@ -48,7 +48,7 @@ class userSeeder extends Seeder
         ]);
 
         User::create([
-            'full_name' => 'User',
+            'full_name' => 'Ujang User kedua disini',
             'username' => 'user1',
             'email' => 'naufal.juliant47@smk.belajar.id',
             'phone_number' => '081234567893',
