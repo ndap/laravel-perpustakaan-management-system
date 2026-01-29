@@ -430,27 +430,17 @@
                                             </form>
                                         </div>
                                     @elseif($borrowing->status == 'approved')
-                                        <!-- Confirm Return Button (only show if past or on return date) -->
-                                        @if(now()->greaterThanOrEqualTo($borrowing->return_date))
-                                            <form action="{{ route('borrowing.confirmReturn', $borrowing->id) }}" method="POST" class="inline">
-                                                @csrf
-                                                <button type="submit" 
-                                                        onclick="event.preventDefault(); Swal.fire({ title: 'Konfirmasi Pengembalian?', text: 'Konfirmasi bahwa buku sudah dikembalikan secara fisik?', icon: 'question', showCancelButton: true, confirmButtonColor: '#3b82f6', cancelButtonColor: '#6b7280', confirmButtonText: 'Ya, Konfirmasi', cancelButtonText: 'Batal' }).then((result) => { if (result.isConfirmed) { this.closest('form').submit(); } });"
-                                                        class="group/btn inline-flex items-center px-3 py-2 text-sm font-semibold text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-all duration-200 shadow-sm hover:shadow hover:scale-105">
-                                                    <svg class="w-4 h-4 mr-1.5 group-hover/btn:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/>
-                                                    </svg>
-                                                    Konfirmasi Pengembalian
-                                                </button>
-                                            </form>
-                                        @else
-                                            <span class="inline-flex items-center text-xs text-gray-400">
-                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        <form action="{{ route('borrowing.confirmReturn', $borrowing->id) }}" method="POST" class="inline">
+                                            @csrf
+                                            <button type="submit" 
+                                                    onclick="event.preventDefault(); Swal.fire({ title: 'Konfirmasi Pengembalian?', text: 'Konfirmasi bahwa buku sudah dikembalikan secara fisik?', icon: 'question', showCancelButton: true, confirmButtonColor: '#3b82f6', cancelButtonColor: '#6b7280', confirmButtonText: 'Ya, Konfirmasi', cancelButtonText: 'Batal' }).then((result) => { if (result.isConfirmed) { this.closest('form').submit(); } });"
+                                                    class="group/btn inline-flex items-center px-3 py-2 text-sm font-semibold text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-all duration-200 shadow-sm hover:shadow hover:scale-105">
+                                                <svg class="w-4 h-4 mr-1.5 group-hover/btn:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/>
                                                 </svg>
-                                                Belum jatuh tempo
-                                            </span>
-                                        @endif
+                                                Konfirmasi Pengembalian
+                                            </button>
+                                        </form>
                                     @else
                                         <span class="text-gray-400">-</span>
                                     @endif

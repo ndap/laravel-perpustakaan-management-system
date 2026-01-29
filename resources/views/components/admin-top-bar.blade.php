@@ -12,16 +12,15 @@
         <span>BukuHub Admin</span>
     </a>
     
-    <!-- Center Title -->
-    <div class="top-bar-center hidden md:block">
-        {{ $title ?? 'Admin Panel' }}
-    </div>
-    
     <!-- Profile Section -->
     <div class="top-bar-profile" x-data="{ open: false }" @click.away="open = false">
         <button @click="open = !open" class="profile-button">
-            <div class="profile-avatar">
-                {{ strtoupper(substr(Auth::user()->full_name ?? 'A', 0, 1)) }}
+            <div class="profile-avatar w-10 h-10 rounded-full overflow-hidden border border-gray-200 flex items-center justify-center bg-gray-100 text-gray-600 font-bold">
+                @if(Auth::user()->photo_profile)
+                    <img src="{{ asset('storage/' . Auth::user()->photo_profile) }}" alt="{{ Auth::user()->full_name }}" class="w-full h-full object-cover">
+                @else
+                    {{ strtoupper(substr(Auth::user()->full_name ?? 'A', 0, 1)) }}
+                @endif
             </div>
             <span class="profile-name hidden md:block">{{ Auth::user()->full_name ?? 'Admin' }}</span>
             <svg class="w-4 h-4 hidden md:block" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24">

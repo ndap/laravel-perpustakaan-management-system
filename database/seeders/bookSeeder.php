@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\book;
+use App\Models\book_category;
 
 class bookSeeder extends Seeder
 {
@@ -13,7 +14,7 @@ class bookSeeder extends Seeder
      */
     public function run(): void
     {
-        book::create([
+        $book1 = book::create([
             'image' => 'laskar-pelangi.jpg',
             'title' => 'Laskar Pelangi',
             'author' => 'Andrea Hirata',
@@ -22,8 +23,9 @@ class bookSeeder extends Seeder
             'synopsis' => 'Novel ini mengisahkan kehidupan 10 anak dari keluarga miskin yang bersekolah di SD Muhammadiyah di Belitung. Mereka menghadapi berbagai tantangan namun tetap semangat mengejar mimpi.',
             'stock' => 3,
         ]);
+        $book1->categories()->attach(book_category::where('category_name', 'Fiksi')->first()->id);
 
-        book::create([
+        $book2 = book::create([
             'image' => 'bumi-manusia.jpg',
             'title' => 'Bumi Manusia',
             'author' => 'Pramoedya Ananta Toer',
@@ -32,8 +34,12 @@ class bookSeeder extends Seeder
             'synopsis' => 'Novel pertama dalam tetralogi Buru yang mengisahkan perjalanan hidup Minke, seorang pribumi muda yang terpelajar di masa kolonial Belanda.',
             'stock' => 5,
         ]);
+        $book2->categories()->attach([
+            book_category::where('category_name', 'Fiksi')->first()->id,
+            book_category::where('category_name', 'Sejarah')->first()->id,
+        ]);
 
-        book::create([
+        $book3 = book::create([
             'image' => 'perahu-kertas.jpg',
             'title' => 'Perahu Kertas',
             'author' => 'Dee Lestari',
@@ -42,8 +48,9 @@ class bookSeeder extends Seeder
             'synopsis' => 'Mengisahkan tentang Kugy dan Keenan yang memiliki mimpi besar. Keduanya bertemu dalam perjalanan yang penuh inspirasi dan cinta.',
             'stock' => 2,
         ]);
+        $book3->categories()->attach(book_category::where('category_name', 'Fiksi')->first()->id);
 
-        book::create([
+        $book4 = book::create([
             'image' => 'sang-pemimpi.jpg',
             'title' => 'Sang Pemimpi',
             'author' => 'Andrea Hirata',
@@ -52,8 +59,9 @@ class bookSeeder extends Seeder
             'synopsis' => 'Sekuel dari Laskar Pelangi yang menceritakan perjuangan Ikal dan Arai untuk mewujudkan mimpi mereka melanjutkan pendidikan ke luar negeri.',
             'stock' => 4,
         ]);
+        $book4->categories()->attach(book_category::where('category_name', 'Fiksi')->first()->id);
 
-        book::create([
+        $book5 = book::create([
             'image' => 'ayat-ayat-cinta.jpg',
             'title' => 'Ayat-Ayat Cinta',
             'author' => 'Habiburrahman El Shirazy',
@@ -62,8 +70,12 @@ class bookSeeder extends Seeder
             'synopsis' => 'Novel yang mengisahkan perjalanan cinta seorang mahasiswa Indonesia bernama Fahri yang tengah menempuh pendidikan di Universitas Al Azhar, Kairo.',
             'stock' => 3,
         ]);
+        $book5->categories()->attach([
+            book_category::where('category_name', 'Fiksi')->first()->id,
+            book_category::where('category_name', 'Religi')->first()->id,
+        ]);
 
-        book::create([
+        $book6 = book::create([
             'image' => 'negeri-5-menara.jpg',
             'title' => 'Negeri 5 Menara',
             'author' => 'Ahmad Fuadi',
@@ -72,8 +84,13 @@ class bookSeeder extends Seeder
             'synopsis' => 'Novel inspiratif tentang kehidupan di pondok pesantren Madani yang mengajarkan pentingnya mimpi, doa, dan ikhtiar.',
             'stock' => 5,
         ]);
+        $book6->categories()->attach([
+            book_category::where('category_name', 'Fiksi')->first()->id,
+            book_category::where('category_name', 'Pendidikan')->first()->id,
+            book_category::where('category_name', 'Religi')->first()->id,
+        ]);
 
-        book::create([
+        $book7 = book::create([
             'image' => 'ronggeng-dukuh-paruk.jpg',
             'title' => 'Ronggeng Dukuh Paruk',
             'author' => 'Ahmad Tohari',
@@ -82,8 +99,12 @@ class bookSeeder extends Seeder
             'synopsis' => 'Trilogi pertama yang mengisahkan kehidupan Srintil, seorang ronggeng dari Dukuh Paruk yang nasibnya diombang-ambingkan oleh tradisi dan politik.',
             'stock' => 2,
         ]);
+        $book7->categories()->attach([
+            book_category::where('category_name', 'Fiksi')->first()->id,
+            book_category::where('category_name', 'Sejarah')->first()->id,
+        ]);
 
-        book::create([
+        $book8 = book::create([
             'image' => 'cantik-itu-luka.jpg',
             'title' => 'Cantik Itu Luka',
             'author' => 'Eka Kurniawan',
@@ -92,8 +113,12 @@ class bookSeeder extends Seeder
             'synopsis' => 'Novel yang menggabungkan realisme magis dengan sejarah Indonesia, mengisahkan kehidupan Dewi Ayu dan keturunannya yang penuh dengan tragedi.',
             'stock' => 4,
         ]);
+        $book8->categories()->attach([
+            book_category::where('category_name', 'Fiksi')->first()->id,
+            book_category::where('category_name', 'Sejarah')->first()->id,
+        ]);
 
-        book::create([
+        $book9 = book::create([
             'image' => 'edensor.jpg',
             'title' => 'Edensor',
             'author' => 'Andrea Hirata',
@@ -102,8 +127,12 @@ class bookSeeder extends Seeder
             'synopsis' => 'Bagian ketiga dari tetralogi Laskar Pelangi yang menceritakan petualangan Ikal di Eropa dalam mengejar impiannya.',
             'stock' => 3,
         ]);
+        $book9->categories()->attach([
+            book_category::where('category_name', 'Fiksi')->first()->id,
+            book_category::where('category_name', 'Travel')->first()->id,
+        ]);
 
-        book::create([
+        $book10 = book::create([
             'image' => 'tenggelamnya-kapal-van-der-wijck.jpg',
             'title' => 'Tenggelamnya Kapal Van Der Wijck',
             'author' => 'HAMKA',
@@ -112,8 +141,12 @@ class bookSeeder extends Seeder
             'synopsis' => 'Novel klasik yang mengisahkan kisah cinta tragis antara Zainuddin dan Hayati yang terhalang oleh perbedaan status sosial dan adat istiadat Minangkabau.',
             'stock' => 2,
         ]);
+        $book10->categories()->attach([
+            book_category::where('category_name', 'Fiksi')->first()->id,
+            book_category::where('category_name', 'Sejarah')->first()->id,
+        ]);
 
-        book::create([
+        $book11 = book::create([
             'image' => 'dilan-1990.jpg',
             'title' => 'Dilan: Dia adalah Dilanku Tahun 1990',
             'author' => 'Pidi Baiq',
@@ -122,8 +155,9 @@ class bookSeeder extends Seeder
             'synopsis' => 'Kisah cinta remaja yang bikin baper antara Dilan, panglima tempur geng motor di Bandung, dengan Milea, siswa baru dari Jakarta.',
             'stock' => 10,
         ]);
+        $book11->categories()->attach(book_category::where('category_name', 'Fiksi')->first()->id);
 
-        book::create([
+        $book12 = book::create([
             'image' => 'laut-bercerita.jpg',
             'title' => 'Laut Bercerita',
             'author' => 'Leila S. Chudori',
@@ -132,8 +166,12 @@ class bookSeeder extends Seeder
             'synopsis' => 'Novel historical fiction yang mengangkat tragedi penghilangan paksa aktivis mahasiswa pada masa reformasi 1998 dari sudut pandang korban dan keluarga yang ditinggalkan.',
             'stock' => 4,
         ]);
+        $book12->categories()->attach([
+            book_category::where('category_name', 'Fiksi')->first()->id,
+            book_category::where('category_name', 'Sejarah')->first()->id,
+        ]);
 
-        book::create([
+        $book13 = book::create([
             'image' => 'gadis-kretek.jpg',
             'title' => 'Gadis Kretek',
             'author' => 'Ratih Kumala',
@@ -142,8 +180,12 @@ class bookSeeder extends Seeder
             'synopsis' => 'Menguak sejarah industri kretek di Indonesia lewat pencarian sosok misterius bernama Jeng Yah oleh tiga anak Pak Soeraja yang sedang sekarat.',
             'stock' => 5,
         ]);
+        $book13->categories()->attach([
+            book_category::where('category_name', 'Fiksi')->first()->id,
+            book_category::where('category_name', 'Sejarah')->first()->id,
+        ]);
 
-        book::create([
+        $book14 = book::create([
             'image' => 'hujan.jpg',
             'title' => 'Hujan',
             'author' => 'Tere Liye',
@@ -152,8 +194,9 @@ class bookSeeder extends Seeder
             'synopsis' => 'Berlatar dunia masa depan, menceritakan persahabatan dan cinta antara Lail dan Esok yang tumbuh setelah bencana letusan gunung purba.',
             'stock' => 7,
         ]);
+        $book14->categories()->attach(book_category::where('category_name', 'Fiksi')->first()->id);
 
-        book::create([
+        $book15 = book::create([
             'image' => '5-cm.jpg',
             'title' => '5 cm',
             'author' => 'Donny Dhirgantoro',
@@ -162,8 +205,12 @@ class bookSeeder extends Seeder
             'synopsis' => 'Kisah lima sahabat yang memutuskan berpisah sementara (tiga bulan) lalu bertemu kembali untuk mendaki puncak Mahameru tepat pada tanggal 17 Agustus.',
             'stock' => 3,
         ]);
+        $book15->categories()->attach([
+            book_category::where('category_name', 'Fiksi')->first()->id,
+            book_category::where('category_name', 'Olahraga')->first()->id,
+        ]);
 
-        book::create([
+        $book16 = book::create([
             'image' => 'saman.jpg',
             'title' => 'Saman',
             'author' => 'Ayu Utami',
@@ -172,8 +219,12 @@ class bookSeeder extends Seeder
             'synopsis' => 'Novel pemenang sayembara DKJ yang mendobrak tabu sastra, mengisahkan Saman, mantan pastur yang menjadi buronan politik di era Orde Baru.',
             'stock' => 2,
         ]);
+        $book16->categories()->attach([
+            book_category::where('category_name', 'Fiksi')->first()->id,
+            book_category::where('category_name', 'Sejarah')->first()->id,
+        ]);
 
-        book::create([
+        $book17 = book::create([
             'image' => 'filosofi-kopi.jpg',
             'title' => 'Filosofi Kopi',
             'author' => 'Dee Lestari',
@@ -182,8 +233,12 @@ class bookSeeder extends Seeder
             'synopsis' => 'Kumpulan cerita pendek tentang Ben dan Jody yang membangun kedai kopi idealis, serta kisah-kisah lain tentang pencarian makna hidup.',
             'stock' => 6,
         ]);
+        $book17->categories()->attach([
+            book_category::where('category_name', 'Fiksi')->first()->id,
+            book_category::where('category_name', 'Kuliner')->first()->id,
+        ]);
 
-        book::create([
+        $book18 = book::create([
             'image' => 'aroma-karsa.jpg',
             'title' => 'Aroma Karsa',
             'author' => 'Dee Lestari',
@@ -192,8 +247,9 @@ class bookSeeder extends Seeder
             'synopsis' => 'Petualangan Jati Wesi, si Hidung Tikus, dalam memburu tanaman mitos Puspa Karsa yang konon bisa mengendalikan kehendak manusia.',
             'stock' => 4,
         ]);
+        $book18->categories()->attach(book_category::where('category_name', 'Fiksi')->first()->id);
 
-        book::create([
+        $book19 = book::create([
             'image' => 'supernova-kpbj.jpg',
             'title' => 'Supernova: Ksatria, Putri, dan Bintang Jatuh',
             'author' => 'Dee Lestari',
@@ -202,8 +258,12 @@ class bookSeeder extends Seeder
             'synopsis' => 'Novel debut fenomenal yang menggabungkan sains, filsafat, dan kisah cinta segitiga antara Dimas, Reuben, Rana, dan Ferre.',
             'stock' => 3,
         ]);
+        $book19->categories()->attach([
+            book_category::where('category_name', 'Fiksi')->first()->id,
+            book_category::where('category_name', 'Teknologi')->first()->id,
+        ]);
 
-        book::create([
+        $book20 = book::create([
             'image' => 'raden-mandasia.jpg',
             'title' => 'Raden Mandasia Si Pencuri Daging Sapi',
             'author' => 'Yusi Avianto Pareanom',
@@ -212,8 +272,12 @@ class bookSeeder extends Seeder
             'synopsis' => 'Kisah dongeng modern yang absurd dan kocak tentang petualangan Sungu Lembu dan Raden Mandasia menuju Kerajaan Gerbang Agung.',
             'stock' => 5,
         ]);
+        $book20->categories()->attach([
+            book_category::where('category_name', 'Fiksi')->first()->id,
+            book_category::where('category_name', 'Hobi')->first()->id,
+        ]);
 
-        book::create([
+        $book21 = book::create([
             'image' => 'pulang-leila.jpg',
             'title' => 'Pulang',
             'author' => 'Leila S. Chudori',
@@ -222,8 +286,12 @@ class bookSeeder extends Seeder
             'synopsis' => 'Kisah para eksil politik Indonesia yang terdampar di Paris setelah peristiwa 1965 dan kerinduan mereka akan tanah air.',
             'stock' => 2,
         ]);
+        $book21->categories()->attach([
+            book_category::where('category_name', 'Fiksi')->first()->id,
+            book_category::where('category_name', 'Sejarah')->first()->id,
+        ]);
 
-        book::create([
+        $book22 = book::create([
             'image' => 'bumi-tere-liye.jpg',
             'title' => 'Bumi',
             'author' => 'Tere Liye',
@@ -232,8 +300,9 @@ class bookSeeder extends Seeder
             'synopsis' => 'Awal mula petualangan Raib, Seli, dan Ali menjelajahi dunia paralel. Novel fantasi remaja yang sangat populer.',
             'stock' => 15,
         ]);
+        $book22->categories()->attach(book_category::where('category_name', 'Fiksi')->first()->id);
 
-        book::create([
+        $book23 = book::create([
             'image' => 'bulan.jpg',
             'title' => 'Bulan',
             'author' => 'Tere Liye',
@@ -242,8 +311,9 @@ class bookSeeder extends Seeder
             'synopsis' => 'Sekuel dari Bumi. Raib, Seli, dan Ali diundang ke Klan Matahari untuk mencari bunga matahari pertama yang mekar.',
             'stock' => 12,
         ]);
+        $book23->categories()->attach(book_category::where('category_name', 'Fiksi')->first()->id);
 
-        book::create([
+        $book24 = book::create([
             'image' => 'negeri-para-bedebah.jpg',
             'title' => 'Negeri Para Bedebah',
             'author' => 'Tere Liye',
@@ -252,8 +322,12 @@ class bookSeeder extends Seeder
             'synopsis' => 'Thriller ekonomi-politik tentang Thomas, seorang konsultan keuangan yang berusaha menyelamatkan bank pamannya dari likuidasi.',
             'stock' => 5,
         ]);
+        $book24->categories()->attach([
+            book_category::where('category_name', 'Fiksi')->first()->id,
+            book_category::where('category_name', 'Non-Fiksi')->first()->id,
+        ]);
 
-        book::create([
+        $book25 = book::create([
             'image' => 'seperti-dendam.jpg',
             'title' => 'Seperti Dendam, Rindu Harus Dibayar Tuntas',
             'author' => 'Eka Kurniawan',
@@ -262,8 +336,9 @@ class bookSeeder extends Seeder
             'synopsis' => 'Kisah Ajo Kawir, jagoan yang impoten, dan perjalanan hidupnya yang keras di jalur pantura. Penuh satire dan aksi.',
             'stock' => 3,
         ]);
+        $book25->categories()->attach(book_category::where('category_name', 'Fiksi')->first()->id);
 
-        book::create([
+        $book26 = book::create([
             'image' => 'lelaki-harimau.jpg',
             'title' => 'Lelaki Harimau',
             'author' => 'Eka Kurniawan',
@@ -272,8 +347,9 @@ class bookSeeder extends Seeder
             'synopsis' => 'Novel realisme magis tentang pembunuhan di sebuah kota kecil pesisir dan misteri siluman harimau yang menyelimutinya.',
             'stock' => 2,
         ]);
+        $book26->categories()->attach(book_category::where('category_name', 'Fiksi')->first()->id);
 
-        book::create([
+        $book27 = book::create([
             'image' => 'critical-eleven.jpg',
             'title' => 'Critical Eleven',
             'author' => 'Ika Natassa',
@@ -282,8 +358,9 @@ class bookSeeder extends Seeder
             'synopsis' => 'Drama rumah tangga Ale dan Anya yang retak setelah kehilangan anak mereka, diceritakan dengan gaya urban yang khas.',
             'stock' => 7,
         ]);
+        $book27->categories()->attach(book_category::where('category_name', 'Fiksi')->first()->id);
 
-        book::create([
+        $book28 = book::create([
             'image' => 'antologi-rasa.jpg',
             'title' => 'Antologi Rasa',
             'author' => 'Ika Natassa',
@@ -292,8 +369,9 @@ class bookSeeder extends Seeder
             'synopsis' => 'Kisah persahabatan jadi cinta yang rumit antara Keara, Harris, dan Ruly, berlatar kehidupan profesional muda Jakarta.',
             'stock' => 6,
         ]);
+        $book28->categories()->attach(book_category::where('category_name', 'Fiksi')->first()->id);
 
-        book::create([
+        $book29 = book::create([
             'image' => 'garis-waktu.jpg',
             'title' => 'Garis Waktu',
             'author' => 'Fiersa Besari',
@@ -302,8 +380,9 @@ class bookSeeder extends Seeder
             'synopsis' => 'Kumpulan pemikiran dan prosa tentang perjalanan menghapus luka. Formatnya unik seperti kronologi waktu.',
             'stock' => 9,
         ]);
+        $book29->categories()->attach(book_category::where('category_name', 'Fiksi')->first()->id);
 
-        book::create([
+        $book30 = book::create([
             'image' => 'konspirasi-alam-semesta.jpg',
             'title' => 'Konspirasi Alam Semesta',
             'author' => 'Fiersa Besari',
@@ -312,8 +391,9 @@ class bookSeeder extends Seeder
             'synopsis' => 'Novel yang memadukan naskah dan musik (albuk), menceritakan kisah cinta Juang dan Ana yang terpisah jarak.',
             'stock' => 5,
         ]);
+        $book30->categories()->attach(book_category::where('category_name', 'Fiksi')->first()->id);
 
-        book::create([
+        $book31 = book::create([
             'image' => 'nkcthi.jpg',
             'title' => 'Nanti Kita Cerita Tentang Hari Ini',
             'author' => 'Marchella FP',
@@ -322,8 +402,9 @@ class bookSeeder extends Seeder
             'synopsis' => 'Buku visual grafis yang berisi pesan-pesan pendek menyentuh hati dari seorang ibu kepada masa depan anaknya.',
             'stock' => 8,
         ]);
+        $book31->categories()->attach(book_category::where('category_name', 'Non-Fiksi')->first()->id);
 
-        book::create([
+        $book32 = book::create([
             'image' => 'orang-orang-biasa.jpg',
             'title' => 'Orang-Orang Biasa',
             'author' => 'Andrea Hirata',
@@ -332,8 +413,9 @@ class bookSeeder extends Seeder
             'synopsis' => 'Kisah sekelompok orang "kalah" yang merencanakan perampokan bank amatir demi biaya kuliah anak teman mereka. Lucu dan mengharukan.',
             'stock' => 4,
         ]);
+        $book32->categories()->attach(book_category::where('category_name', 'Fiksi')->first()->id);
 
-        book::create([
+        $book33 = book::create([
             'image' => 'bidadari-bidadari-surga.jpg',
             'title' => 'Bidadari-Bidadari Surga',
             'author' => 'Tere Liye',
@@ -342,8 +424,12 @@ class bookSeeder extends Seeder
             'synopsis' => 'Pengorbanan Kak Laisa, kakak tertua yang fisik nya kurang sempurna tapi mendedikasikan hidupnya untuk keberhasilan adik-adiknya.',
             'stock' => 3,
         ]);
+        $book33->categories()->attach([
+            book_category::where('category_name', 'Fiksi')->first()->id,
+            book_category::where('category_name', 'Religi')->first()->id,
+        ]);
 
-        book::create([
+        $book34 = book::create([
             'image' => 'sabtu-bersama-bapak.jpg',
             'title' => 'Sabtu Bersama Bapak',
             'author' => 'Adhitya Mulya',
@@ -352,8 +438,9 @@ class bookSeeder extends Seeder
             'synopsis' => 'Tentang seorang bapak yang meninggalkan rekaman video untuk kedua anaknya agar tetap bisa membimbing mereka meski ia sudah tiada.',
             'stock' => 6,
         ]);
+        $book34->categories()->attach(book_category::where('category_name', 'Fiksi')->first()->id);
 
-        book::create([
+        $book35 = book::create([
             'image' => 'koala-kumal.jpg',
             'title' => 'Koala Kumal',
             'author' => 'Raditya Dika',
@@ -362,8 +449,12 @@ class bookSeeder extends Seeder
             'synopsis' => 'Kumpulan cerita komedi tentang patah hati dan perubahan, khas gaya bercerita Raditya Dika yang absurd.',
             'stock' => 10,
         ]);
+        $book35->categories()->attach([
+            book_category::where('category_name', 'Fiksi')->first()->id,
+            book_category::where('category_name', 'Hobi')->first()->id,
+        ]);
 
-        book::create([
+        $book36 = book::create([
             'image' => 'rentang-kisah.jpg',
             'title' => 'Rentang Kisah',
             'author' => 'Gita Savitri Devi',
@@ -371,6 +462,11 @@ class bookSeeder extends Seeder
             'publication_year' => 2017,
             'synopsis' => 'Kumpulan cerita pengalaman Gita Savitri selama kuliah di Jerman, menemukan tujuan hidup dan keyakinan.',
             'stock' => 5,
+        ]);
+        $book36->categories()->attach([
+            book_category::where('category_name', 'Non-Fiksi')->first()->id,
+            book_category::where('category_name', 'Pendidikan')->first()->id,
+            book_category::where('category_name', 'Travel')->first()->id,
         ]);
     }
 }

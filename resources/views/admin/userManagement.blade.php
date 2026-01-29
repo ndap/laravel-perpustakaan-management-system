@@ -280,12 +280,20 @@
                             <!-- User Info -->
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-12 h-12 bg-gradient-to-br from-primary-100 to-emerald-100 rounded-full flex items-center justify-center text-primary-700 font-bold text-lg shadow-sm group-hover:shadow-md transition-shadow">
-                                        {{ strtoupper(substr($user->full_name ?? $user->username, 0, 2)) }}
-                                    </div>
+                                    @if($user->photo_profile)
+                                        <img 
+                                            src="{{ asset('storage/' . $user->photo_profile) }}" 
+                                            alt="{{ $user->full_name ?? $user->username }}" 
+                                            class="w-12 h-12 rounded-full object-cover shadow-sm group-hover:shadow-md transition-shadow border-2 border-gray-100"
+                                        >
+                                    @else
+                                        <div class="w-12 h-12 bg-gradient-to-br from-primary-100 to-emerald-100 rounded-full flex items-center justify-center text-primary-700 font-bold text-lg shadow-sm group-hover:shadow-md transition-shadow">
+                                            {{ strtoupper(substr($user->full_name ?? $user->username, 0, 1)) }}
+                                        </div>
+                                    @endif
                                     <div>
                                         <p class="text-sm font-bold text-gray-900 group-hover:text-primary-700 transition-colors">{{ $user->full_name ?? '-' }}</p>
-                                        <p class="text-xs text-gray-500">@{{ $user->username }}</p>
+                                        <p class="text-xs text-gray-500">{{ $user->username }}</p>
                                     </div>
                                 </div>
                             </td>
@@ -435,9 +443,17 @@
                                 
                                 <div class="bg-gray-50 rounded-xl p-4 mb-6">
                                     <div class="flex items-center gap-3">
-                                        <div class="w-12 h-12 bg-gradient-to-br from-gray-200 to-gray-300 rounded-full flex items-center justify-center text-gray-600 font-bold">
-                                            {{ strtoupper(substr($user->full_name ?? $user->username, 0, 2)) }}
-                                        </div>
+                                        @if($user->photo_profile)
+                                            <img 
+                                                src="{{ asset('storage/' . $user->photo_profile) }}" 
+                                                alt="{{ $user->full_name ?? $user->username }}" 
+                                                class="w-12 h-12 rounded-full object-cover border-2 border-gray-200"
+                                            >
+                                        @else
+                                            <div class="w-12 h-12 bg-gradient-to-br from-gray-200 to-gray-300 rounded-full flex items-center justify-center text-gray-600 font-bold">
+                                                {{ strtoupper(substr($user->full_name ?? $user->username, 0, 1)) }}
+                                            </div>
+                                        @endif
                                         <div>
                                             <p class="font-semibold text-gray-900">{{ $user->full_name ?? $user->username }}</p>
                                             <p class="text-sm text-gray-500">{{ $user->email }}</p>

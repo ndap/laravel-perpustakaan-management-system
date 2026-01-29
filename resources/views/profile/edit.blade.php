@@ -60,14 +60,207 @@
         </div>
     @endif
 
+    @if(session('status') === 'photo-updated')
+        <div 
+            x-data="{ show: true }"
+            x-show="show"
+            x-init="setTimeout(() => show = false, 5000)"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 transform translate-y-2"
+            x-transition:enter-end="opacity-100 transform translate-y-0"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100 transform translate-y-0"
+            x-transition:leave-end="opacity-0 transform -translate-y-2"
+            class="mb-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl flex items-center gap-3 shadow-sm"
+        >
+            <div class="flex-shrink-0 w-10 h-10 bg-green-100 rounded-full flex items-center justify-center shadow-sm">
+                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+            </div>
+            <p class="text-green-800 font-medium">Foto profil berhasil diperbarui!</p>
+            <button x-on:click="show = false" class="ml-auto text-green-600 hover:text-green-800 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+    @endif
+
+    @if(session('status') === 'photo-deleted')
+        <div 
+            x-data="{ show: true }"
+            x-show="show"
+            x-init="setTimeout(() => show = false, 5000)"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 transform translate-y-2"
+            x-transition:enter-end="opacity-100 transform translate-y-0"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100 transform translate-y-0"
+            x-transition:leave-end="opacity-0 transform -translate-y-2"
+            class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl flex items-center gap-3 shadow-sm"
+        >
+            <div class="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center shadow-sm">
+                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+            </div>
+            <p class="text-blue-800 font-medium">Foto profil berhasil dihapus!</p>
+            <button x-on:click="show = false" class="ml-auto text-blue-600 hover:text-blue-800 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+    @endif
+
     <!-- Page Header with Gradient Background -->
     <div class="mb-8 relative">
         <div class="absolute inset-0 bg-gradient-to-r from-primary-500/10 via-emerald-500/10 to-green-500/10 rounded-2xl blur-3xl"></div>
         <div class="relative bg-white/80 backdrop-blur-sm border border-gray-100 rounded-2xl p-6 shadow-lg">
             <div class="flex flex-col md:flex-row md:items-center gap-6">
-                <!-- Profile Avatar -->
-                <div class="w-24 h-24 bg-gradient-to-br from-primary-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-xl text-white text-3xl font-bold">
-                    {{ strtoupper(substr($user->full_name ?? $user->username ?? 'U', 0, 2)) }}
+                <!-- Profile Avatar with Upload -->
+                <div x-data="{ 
+                    previewUrl: '{{ $user->photo_profile ? asset('storage/' . $user->photo_profile) : '' }}',
+                    showUploadModal: false,
+                    fileSelected: false,
+                    fileName: '',
+                    handleFileSelect(event) {
+                        const file = event.target.files[0];
+                        if (file) {
+                            this.fileSelected = true;
+                            this.fileName = file.name;
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                this.previewUrl = e.target.result;
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    }
+                }" class="relative group">
+                    <!-- Avatar Container -->
+                    <div class="relative">
+                        @if($user->photo_profile)
+                            <img 
+                                :src="previewUrl || '{{ asset('storage/' . $user->photo_profile) }}'" 
+                                alt="{{ $user->full_name }}" 
+                                class="w-24 h-24 rounded-2xl object-cover shadow-xl border-2 border-white"
+                            >
+                        @else
+                            <div x-show="!previewUrl" class="w-24 h-24 bg-gradient-to-br from-primary-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-xl text-white text-3xl font-bold">
+                                {{ strtoupper(substr($user->full_name ?? $user->username ?? 'U', 0, 2)) }}
+                            </div>
+                            <img 
+                                x-show="previewUrl" 
+                                :src="previewUrl" 
+                                alt="{{ $user->full_name }}" 
+                                class="w-24 h-24 rounded-2xl object-cover shadow-xl border-2 border-white"
+                                style="display: none;"
+                            >
+                        @endif
+                        
+                        <!-- Upload Overlay -->
+                        <div class="absolute inset-0 bg-black/50 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+                             x-on:click="showUploadModal = true">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Photo Upload Modal -->
+                    <div x-show="showUploadModal" 
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition ease-in duration-200"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+                         style="display: none;"
+                         x-on:click.self="showUploadModal = false; fileSelected = false;">
+                        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6" x-on:click.stop>
+                            <div class="text-center mb-6">
+                                <div class="mx-auto w-16 h-16 bg-gradient-to-br from-primary-100 to-emerald-200 rounded-full flex items-center justify-center mb-4">
+                                    <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900">Ubah Foto Profil</h3>
+                                <p class="text-sm text-gray-500 mt-1">Format: JPG, PNG, GIF, WEBP (Maks. 2MB)</p>
+                            </div>
+
+                            <form action="{{ route('profile.photo.update') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                
+                                <!-- Preview Area -->
+                                <div class="mb-6 flex justify-center">
+                                    <div class="relative">
+                                        <template x-if="previewUrl">
+                                            <img :src="previewUrl" class="w-32 h-32 rounded-2xl object-cover shadow-lg border-2 border-gray-100">
+                                        </template>
+                                        <template x-if="!previewUrl">
+                                            <div class="w-32 h-32 bg-gradient-to-br from-primary-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-lg text-white text-4xl font-bold">
+                                                {{ strtoupper(substr($user->full_name ?? $user->username ?? 'U', 0, 2)) }}
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+
+                                <!-- File Input -->
+                                <div class="mb-6">
+                                    <label class="block w-full cursor-pointer">
+                                        <div class="border-2 border-dashed rounded-xl p-4 text-center transition-colors"
+                                             :class="fileSelected ? 'border-primary-300 bg-primary-50' : 'border-gray-300 hover:border-primary-400'">
+                                            <input type="file" name="photo_profile" accept="image/*" class="hidden" x-on:change="handleFileSelect($event)" required>
+                                            <svg class="w-8 h-8 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                                            </svg>
+                                            <p class="text-sm" :class="fileSelected ? 'text-primary-700 font-medium' : 'text-gray-500'">
+                                                <span x-show="!fileSelected">Klik untuk memilih foto</span>
+                                                <span x-show="fileSelected" x-text="fileName"></span>
+                                            </p>
+                                        </div>
+                                    </label>
+                                </div>
+
+                                @error('photo_profile')
+                                    <p class="mb-4 text-sm text-red-600 text-center">{{ $message }}</p>
+                                @enderror
+
+                                <!-- Action Buttons -->
+                                <div class="flex gap-3">
+                                    <button type="button" 
+                                            x-on:click="showUploadModal = false; fileSelected = false; previewUrl = '{{ $user->photo_profile ? asset('storage/' . $user->photo_profile) : '' }}';"
+                                            class="flex-1 px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors">
+                                        Batal
+                                    </button>
+                                    <button type="submit" 
+                                            :disabled="!fileSelected"
+                                            class="flex-1 px-4 py-3 text-sm font-semibold text-white bg-gradient-to-r from-primary-600 to-emerald-600 rounded-xl hover:from-primary-700 hover:to-emerald-700 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+                                        Simpan Foto
+                                    </button>
+                                </div>
+                            </form>
+
+                            @if($user->photo_profile)
+                                <div class="mt-4 pt-4 border-t border-gray-100">
+                                    <form action="{{ route('profile.photo.delete') }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus foto profil?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="w-full px-4 py-2 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors flex items-center justify-center gap-2">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                            </svg>
+                                            Hapus Foto
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="flex-1">

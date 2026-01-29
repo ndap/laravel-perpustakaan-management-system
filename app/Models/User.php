@@ -25,7 +25,21 @@ class User extends Authenticatable implements MustVerifyEmail
         'full_name',
         'address',
         'role',
+        'photo_profile',
     ];
+
+    /**
+     * Get the profile photo URL or default avatar
+     */
+    public function getPhotoUrlAttribute(): string
+    {
+        if ($this->photo_profile) {
+            return asset('storage/' . $this->photo_profile);
+        }
+
+        // Return default avatar with initials
+        return '';
+    }
 
     public function borrowings()
     {
