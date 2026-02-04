@@ -1,147 +1,389 @@
-<div align="center">
+# 📚 Laravel Library Management System (Perpustakaan)
 
-  <img src="https://via.placeholder.com/1200x400?text=Laravel+Library+Management+System" alt="Library System Banner" width="100%">
-
-  # 📚 Laravel Library Management System
-  
-  **Sistem Manajemen Perpustakaan Modern, Cepat, dan Anti Ribet.**
-
-  <p>
-    <a href="#"><img src="https://img.shields.io/badge/Laravel-11.x-FF2D20?style=for-the-badge&logo=laravel" alt="Laravel"></a>
-    <a href="#"><img src="https://img.shields.io/badge/PHP-8.2-777BB4?style=for-the-badge&logo=php" alt="PHP"></a>
-    <a href="#"><img src="https://img.shields.io/badge/Tailwind_CSS-3.0-38B2AC?style=for-the-badge&logo=tailwind-css" alt="Tailwind"></a>
-    <a href="#"><img src="https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker" alt="Docker"></a>
-    <a href="#"><img src="https://img.shields.io/github/license/dafa-ali/library-system?style=for-the-badge" alt="License"></a>
-  </p>
-
-  <p>
-    <a href="#-features">Fitur</a> •
-    <a href="#-tech-stack">Teknologi</a> •
-    <a href="#-installation--penginstallan">Instalasi</a> •
-    <a href="#-screenshots">Screenshots</a>
-  </p>
-</div>
-
----
-
-## 🚀 Overview
-
-Welcome to the **Laravel Library Management System**! Aplikasi ini didesain buat bikin hidup pustakawan dan member lebih mudah. Mulai dari minjem buku, balikin buku, sampe cetak laporan, semuanya bisa dilakukan dengan *sat-set* di sini. UI-nya udah pake Tailwind, jadi dijamin responsif dan enak dipandang.
+A comprehensive library management system built with Laravel 12, designed for managing books, borrowings, users, and generating detailed reports. This system supports multiple user roles (Admin, Librarian, User) with role-based access control.
 
 ## ✨ Features
 
-| Role | Capabilities |
-| :--- | :--- |
-| **👑 Admin** | Full control system, manage users, config app. God mode. |
-| **📚 Librarian** | Manage catalog buku, kategori, stock, dan transaksi peminjaman. |
-| **👤 Member** | Browsing buku, liat history peminjaman, bookmark buku favorit. |
+### 👥 User Management
 
-**Key Highlights:**
-* ✅ **Stock Management:** Otomatis update stok saat dipinjam/dikembalikan.
-* ✅ **PDF Reporting:** Generate laporan perpustakaan sekali klik.
-* ✅ **Penalty System:** (Optional) Hitung denda telat otomatis.
-* ✅ **Responsive UI:** Akses dari HP, Tablet, atau Laptop aman jaya.
+- **Multi-role Authentication**: Admin, Librarian, and User roles
+- **User Profile Management**: Update username, password, and profile photo
+- **Email Verification**: Secure account verification system
+- **Role-based Access Control**: Different permissions for each user role
 
----
+### 📖 Book Management
 
-## 🛠 Tech Stack
+- **Complete CRUD Operations**: Create, read, update, and delete books
+- **Book Catalog**: Browse and search through available books
+- **Book Details**: View comprehensive information including cover images, author, publisher, publication year, synopsis
+- **Category Management**: Organize books with multiple categories
+- **Stock Management**: Track book availability in real-time
+- **Book Reviews**: Users can rate and review books they've borrowed
+- **Bookmarks**: Save favorite books for quick access
 
-Aplikasi ini dibangun pake teknologi jaman *now*:
+### 📋 Borrowing System
 
-* **Backend:** Laravel 11
-* **Frontend:** Blade Templates + Tailwind CSS
-* **Database:** MySQL 8.0
-* **Containerization:** Docker & Docker Compose
+- **Borrowing Workflow**: Request → Approval → Return confirmation
+- **Approval System**: Admin/Librarian can approve or reject borrowing requests
+- **Borrowing History**: Track all borrowing transactions
+- **Status Tracking**: Monitor borrowing status (pending, approved, rejected, returned, overdue)
+- **Borrowing Proof**: Generate downloadable PDF proof of borrowing
+- **Return Confirmation**: Admin/Librarian confirms book returns
 
----
+### 📊 Reporting & Analytics
 
-## 💾 Installation / Penginstallan
+- **PDF Reports**: Generate comprehensive reports in PDF format
+    - Borrowing Report (with date filtering)
+    - Books Report (with category filtering)
+    - Users Report (with role filtering)
+    - Statistics Report (comprehensive system statistics)
+- **Excel Export**: Export all reports to Excel format for further analysis
+- **Dashboard Analytics**: Visual statistics for admins
 
-Pilih jalan ninjamu! Mau yang *auto-pilot* pake Docker atau manual?
+### 🔐 Security Features
 
-<details open>
-<summary><b>🐳 Option 1: Docker (Recommended - Paling Gampang)</b></summary>
-<br>
+- **Laravel Breeze Authentication**: Secure authentication scaffolding
+- **Middleware Protection**: Custom middleware for role-based route protection
+    - `IsAdmin`: Admin and Librarian access
+    - `IsStrictAdmin`: Admin-only access
+    - `IsUser`: Regular user access
+- **Email Verification**: Required for accessing system features
+- **CSRF Protection**: Built-in Laravel security
 
-Metode ini paling *recommended* biar environment laptop lo gak berantakan. Kita udah siapin script `install.sh` yang pinter.
+## 🖥️ System Requirements
 
-1.  **Clone Repo**
+### Server Requirements
+
+- **PHP**: ^8.2 or higher
+- **Database**: SQLite (default) or MySQL/PostgreSQL
+- **Web Server**: Apache/Nginx (or PHP built-in server for development)
+- **Composer**: Latest version
+- **Node.js**: v16 or higher
+- **NPM**: Latest version
+
+### PHP Extensions Required
+
+- BCMath PHP Extension
+- Ctype PHP Extension
+- Fileinfo PHP Extension
+- JSON PHP Extension
+- Mbstring PHP Extension
+- OpenSSL PHP Extension
+- PDO PHP Extension
+- Tokenizer PHP Extension
+- XML PHP Extension
+- GD or Imagick Extension (for image processing)
+
+### Development Tools (Optional)
+
+- Docker & Docker Compose (for containerized development)
+- Git (for version control)
+
+## 🚀 Installation
+
+### Option 1: Standard Installation
+
+1. **Clone the repository**
+
+    ```bash
+    cd /path/to/your/workspace
+    git clone <repository-url>
+    cd laravel-perpustakaan-management-system
+    ```
+
+2. **Install PHP dependencies**
+
+    ```bash
+    composer install
+    ```
+
+3. **Copy environment file**
+
+    ```bash
+    cp .env.example .env
+    ```
+
+4. **Generate application key**
+
+    ```bash
+    php artisan key:generate
+    ```
+
+5. **Configure database**
+
+    The default configuration uses SQLite. The database file will be created automatically.
+
+    For MySQL/PostgreSQL, edit `.env` file:
+
+    ```env
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=perpustakaan_db
+    DB_USERNAME=your_username
+    DB_PASSWORD=your_password
+    ```
+
+6. **Run migrations and seeders**
+
+    ```bash
+    php artisan migrate:fresh --seed
+    ```
+
+7. **Install frontend dependencies**
+
+    ```bash
+    npm install
+    ```
+
+8. **Build frontend assets**
+
+    ```bash
+    npm run build
+    ```
+
+9. **Create storage link**
+
+    ```bash
+    php artisan storage:link
+    ```
+
+10. **Start the development server**
+
+    ```bash
+    php artisan serve
+    ```
+
+11. **Access the application**
+
+    Open your browser and navigate to: `http://localhost:8000`
+
+### Option 2: Docker Installation
+
+1. **Clone the repository**
+
     ```bash
     git clone <repository-url>
     cd laravel-perpustakaan-management-system
     ```
 
-2.  **Jalankan Magic Script**
-    Pastikan script bisa dieksekusi, lalu jalankan:
+2. **Run the installation script**
+
     ```bash
     chmod +x install.sh
     ./install.sh
     ```
-    > ☕ **Tunggu sebentar.** Script ini bakal otomatis setup container, install composer, generate key, migrate db, seeding data, sampe build frontend aset. Lo tinggal duduk manis.
 
-3.  **Akses Web**
-    Buka browser dan gas ke: [http://localhost](http://localhost)
+3. **Access the application**
 
-</details>
+    Open your browser and navigate to: `http://localhost`
 
-<details>
-<summary><b>⚙️ Option 2: Manual Installation (The Old School Way)</b></summary>
-<br>
+### Docker Management Commands
 
-Buat lo yang suka setup manual di local (XAMPP/Laragon/Valet).
+- **Start containers**: `./start.sh`
+- **Stop containers**: `./stop.sh`
+- **Run artisan commands**: `./artisan.sh <command>`
+- **Run npm commands**: `./npm.sh <command>`
 
-**Prerequisites:** PHP >= 8.2, Composer, Node.js, MySQL.
+## 📝 Default Credentials
 
-1.  **Setup Environment**
-    ```bash
-    cp .env.example .env
-    # Edit .env sesuaikan database lo
-    ```
+After running the seeders, you can login with these default accounts:
 
-2.  **Install Dependencies**
-    ```bash
-    composer install
-    npm install && npm run build
-    ```
+### Admin Account
 
-3.  **Database Setup**
-    ```bash
-    php artisan key:generate
-    php artisan migrate --seed
-    ```
+- **Username**: `admin`
+- **Password**: `password`
 
-4.  **Run Server**
-    ```bash
-    php artisan serve
-    ```
-    Akses di: [http://localhost:8000](http://localhost:8000)
+### Librarian Account
 
-</details>
+- **Username**: `librarian`
+- **Password**: `password`
 
-## ⚡ Helper Scripts (Docker Users)
+### User Account
 
-Biar gak capek ngetik `docker-compose exec ...` terus, pake ginian aja:
+- **Username**: `user`
+- **Password**: `password`
 
-* `./start.sh` ➡️ Nyalain semua container.
-* `./stop.sh` ➡️ Matiin container.
-* `./artisan.sh migrate` ➡️ Jalanin artisan command di dalem docker.
-* `./npm.sh run dev` ➡️ Jalanin npm command di dalem docker.
+> ⚠️ **Important**: Change these default passwords immediately in production!
+
+## 🛠️ Configuration
+
+### Email Configuration (Optional)
+
+For email verification to work, configure your mail settings in `.env`:
+
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=your_username
+MAIL_PASSWORD=your_password
+MAIL_FROM_ADDRESS="library@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+### Storage Configuration
+
+Ensure the following directories are writable:
+
+- `storage/app`
+- `storage/framework`
+- `storage/logs`
+- `bootstrap/cache`
+
+Set proper permissions:
+
+```bash
+chmod -R 775 storage bootstrap/cache
+```
+
+## 📦 Technology Stack
+
+### Backend
+
+- **Framework**: Laravel 12
+- **PHP Version**: 8.2+
+- **Authentication**: Laravel Breeze
+- **PDF Generation**: DomPDF (barryvdh/laravel-dompdf)
+- **Excel Export**: Laravel Excel (maatwebsite/excel)
+
+### Frontend
+
+- **CSS Framework**: Tailwind CSS 4.1.18
+- **JavaScript**: Alpine.js 3.4.2
+- **Build Tool**: Vite 7.0.7
+- **HTTP Client**: Axios 1.11.0
+
+### Database
+
+- **Default**: SQLite
+- **Supported**: MySQL, PostgreSQL
+
+### Development Tools
+
+- **Package Manager**: Composer & NPM
+- **Testing**: PHPUnit 11.5.3
+- **Code Quality**: Laravel Pint
+- **Debugging**: Laravel Pail
+
+## 🗂️ Project Structure
+
+```
+laravel-perpustakaan-management-system/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── Admin/          # Admin controllers
+│   │   │   ├── Auth/           # Authentication controllers
+│   │   │   ├── BookController.php
+│   │   │   ├── BorrowingController.php
+│   │   │   └── HomeController.php
+│   │   └── Middleware/
+│   │       ├── IsAdmin.php     # Admin/Librarian middleware
+│   │       ├── IsStrictAdmin.php # Admin-only middleware
+│   │       └── IsUser.php       # User middleware
+│   └── Models/
+│       ├── User.php
+│       ├── book.php
+│       ├── borrowing.php
+│       ├── book_category.php
+│       └── ...
+├── database/
+│   ├── migrations/             # Database migrations
+│   ├── seeders/                # Database seeders
+│   └── factories/              # Model factories
+├── resources/
+│   └── views/
+│       ├── admin/              # Admin views
+│       ├── home/               # User views
+│       ├── auth/               # Authentication views
+│       └── landing.blade.php   # Landing page
+├── routes/
+│   ├── web.php                 # Web routes
+│   └── auth.php                # Authentication routes
+└── public/
+    └── storage/                # Public storage (images, files)
+```
+
+## 🎯 Usage Guide
+
+### For Regular Users
+
+1. **Register/Login**: Create an account or login with existing credentials
+2. **Browse Books**: View the book catalog and search for books
+3. **Borrow Books**: Select a book and submit a borrowing request
+4. **Track Borrowings**: Check borrowing history and status
+5. **Bookmarks**: Save favorite books for later
+6. **Reviews**: Rate and review books you've borrowed
+
+### For Librarians
+
+1. **Manage Books**: Add, edit, or remove books from the catalog
+2. **Approve Borrowings**: Review and approve/reject borrowing requests
+3. **Confirm Returns**: Confirm when books are returned
+4. **Manage Categories**: Organize books by categories
+5. **Generate Reports**: Create borrowing and book reports
+
+### For Administrators
+
+All librarian features plus:
+
+- **User Management**: Create, edit, or delete user accounts
+- **Role Assignment**: Assign roles to users
+- **Complete Analytics**: Access all system reports and statistics
+- **System Configuration**: Manage system-wide settings
+
+## 🧪 Testing
+
+Run the test suite:
+
+```bash
+php artisan test
+```
+
+Or using PHPUnit directly:
+
+```bash
+./vendor/bin/phpunit
+```
+
+## 🔧 Development
+
+Start the development environment:
+
+```bash
+composer dev
+```
+
+This will concurrently run:
+
+- Laravel development server
+- Queue worker
+- Log viewer (Pail)
+- Vite development server
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📞 Support
+
+If you encounter any issues or have questions, please open an issue on the GitHub repository.
+
+## 🎓 About
+
+This Library Management System (Sistem Manajemen Perpustakaan) was developed as a comprehensive solution for library operations, featuring modern web technologies and best practices in Laravel development.
 
 ---
 
-## 📸 Screenshots
-
-<div align="center">
-  <img src="https://via.placeholder.com/600x300?text=Dashboard+Admin" width="45%">
-  <img src="https://via.placeholder.com/600x300?text=Katalog+Buku" width="45%">
-</div>
-
----
-
-<div align="center">
-
-  **Made with ❤️ by [Dafa Ali]**
-  
-  Don't forget to ⭐ star this repo if you find it useful!
-
-</div>
+**Made by aldap using Laravel & Tailwind CSS**
