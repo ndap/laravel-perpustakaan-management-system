@@ -16,6 +16,10 @@ Route::get('/', function () {
     return view('landing');
 });
 
+// Guest Routes - Public access for browsing books
+Route::get('/books', [HomeController::class, 'guestCatalogue'])->name('guest.books');
+Route::get('/books/{book}', [HomeController::class, 'guestBookDetail'])->name('guest.bookDetail');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

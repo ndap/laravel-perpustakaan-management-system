@@ -192,4 +192,86 @@ class HomeController extends Controller
         // Download PDF with filename
         return $pdf->download('bukti-peminjaman-' . $borrowing->id . '.pdf');
     }
+
+    /**
+     * Display the guest book catalogue (no authentication required)
+     */
+    public function guestCatalogue(Request $request)
+    {
+        $query = book::with('categories');
+
+        // Search functionality
+        if ($request->has('search') && $request->search) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('author', 'like', "%{$search}%")
+                    ->orWhere('publisher', 'like', "%{$search}%");
+            });
+        }
+
+        // Category filter
+        if ($request->has('category') && $request->category) {
+            $query->whereHas('categories', function ($q) use ($request) {
+                $q->where('book_categories.id', $request->category);
+            });
+        }
+
+        $books = $query->orderBy('created_at', 'desc')->orderBy('id', 'desc')->paginate(15);
+        $categories = book_category::all();
+
+        // Statistics
+        $totalBooks = book::count();
+        $totalStock = book::sum('stock');
+        $borrowedBooks = borrowing::where('status', 'approved')->count();
+        $availableBooks = $totalStock;
+
+        return view('listViewBook', compact(
+            'books',
+            'categories',
+            'totalBooks',
+            'totalStock',
+            'availableBooks',
+            'borrowedBooks'
+        ));
+    }
+
+    /**
+     * Display guest book detail page (no authentication required)
+     */
+    public function guestBookDetail(book $book)
+    {
+        // Load relationships
+        $book->load('categories');
+
+        // Check if book is available (based on stock)
+        $isAvailable = $book->isAvailable();
+
+        // Load reviews with user information, ordered by newest first
+        $reviews = $book->reviews()
+            ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Calculate average rating and review count
+        $averageRating = $book->averageRating();
+        $reviewCount = $book->reviewCount();
+
+        // Get related books (same category)
+        $relatedBooks = book::whereHas('categories', function ($q) use ($book) {
+            $q->whereIn('book_categories.id', $book->categories->pluck('id'));
+        })
+            ->where('id', '!=', $book->id)
+            ->limit(4)
+            ->get();
+
+        return view('bookDetailGuest', compact(
+            'book',
+            'isAvailable',
+            'reviews',
+            'averageRating',
+            'reviewCount',
+            'relatedBooks'
+        ));
+    }
 }
