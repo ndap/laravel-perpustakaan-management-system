@@ -71,6 +71,12 @@ class HomeController extends Controller
             ->where('book_id', $book->id)
             ->exists();
 
+        // Check if user has borrowed this book (any status past pending/rejected)
+        $userHasBorrowed = borrowing::where('user_id', Auth::id())
+            ->where('book_id', $book->id)
+            ->whereIn('status', ['approved', 'borrowed', 'return_requested', 'returned'])
+            ->exists();
+
         // Load reviews with user information, ordered by newest first
         $reviews = $book->reviews()
             ->with('user')
@@ -100,6 +106,7 @@ class HomeController extends Controller
             'isBookmarked',
             'reviews',
             'userHasReviewed',
+            'userHasBorrowed',
             'averageRating',
             'reviewCount',
             'relatedBooks'
@@ -180,8 +187,8 @@ class HomeController extends Controller
             ->where('user_id', Auth::id())
             ->firstOrFail();
 
-        // Only allow download for approved borrowings
-        if ($borrowing->status !== 'approved') {
+        // Only allow download for approved/borrowed/return_requested/returned borrowings
+        if (!in_array($borrowing->status, ['approved', 'borrowed', 'return_requested', 'returned'])) {
             return redirect()->route('home.borrowingHistory')
                 ->with('error', 'Bukti peminjaman hanya tersedia untuk peminjaman yang sudah disetujui.');
         }
@@ -273,5 +280,27 @@ class HomeController extends Controller
             'reviewCount',
             'relatedBooks'
         ));
+    }
+
+    /**
+     * Request book return (user submits return request)
+     */
+    public function requestReturn($id)
+    {
+        $borrowing = borrowing::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        // Validate that the borrowing is currently borrowed
+        if ($borrowing->status !== 'borrowed') {
+            return redirect()->back()->with('error', 'Hanya peminjaman dengan status sedang dipinjam yang dapat diajukan pengembalian.');
+        }
+
+        // Update status to return_requested
+        $borrowing->status = 'return_requested';
+        $borrowing->return_requested_at = now();
+        $borrowing->save();
+
+        return redirect()->back()->with('success', 'Pengajuan pengembalian berhasil! Silakan kembalikan buku ke perpustakaan dan tunggu konfirmasi admin.');
     }
 }

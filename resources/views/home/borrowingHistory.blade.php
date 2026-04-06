@@ -81,37 +81,30 @@
         <div class="flex border-b border-gray-200 overflow-x-auto">
             <a href="{{ route('home.borrowingHistory') }}" 
                class="group flex items-center gap-2 px-6 py-4 font-semibold whitespace-nowrap transition-all duration-200 {{ !request('status') ? 'text-primary-700 border-b-2 border-primary-700 bg-primary-50/50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50' }}">
-                <svg class="w-5 h-5 {{ !request('status') ? 'text-primary-700' : 'text-gray-400 group-hover:text-gray-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
-                </svg>
                 Semua
             </a>
             <a href="{{ route('home.borrowingHistory', ['status' => 'pending']) }}" 
                class="group flex items-center gap-2 px-6 py-4 font-semibold whitespace-nowrap transition-all duration-200 {{ request('status') == 'pending' ? 'text-primary-700 border-b-2 border-primary-700 bg-primary-50/50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50' }}">
-                <svg class="w-5 h-5 {{ request('status') == 'pending' ? 'text-primary-700' : 'text-gray-400 group-hover:text-gray-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
                 Pending
             </a>
             <a href="{{ route('home.borrowingHistory', ['status' => 'approved']) }}" 
                class="group flex items-center gap-2 px-6 py-4 font-semibold whitespace-nowrap transition-all duration-200 {{ request('status') == 'approved' ? 'text-primary-700 border-b-2 border-primary-700 bg-primary-50/50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50' }}">
-                <svg class="w-5 h-5 {{ request('status') == 'approved' ? 'text-primary-700' : 'text-gray-400 group-hover:text-gray-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
                 Disetujui
+            </a>
+            <a href="{{ route('home.borrowingHistory', ['status' => 'borrowed']) }}" 
+               class="group flex items-center gap-2 px-6 py-4 font-semibold whitespace-nowrap transition-all duration-200 {{ request('status') == 'borrowed' ? 'text-primary-700 border-b-2 border-primary-700 bg-primary-50/50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50' }}">
+                Dipinjam
+            </a>
+            <a href="{{ route('home.borrowingHistory', ['status' => 'return_requested']) }}" 
+               class="group flex items-center gap-2 px-6 py-4 font-semibold whitespace-nowrap transition-all duration-200 {{ request('status') == 'return_requested' ? 'text-primary-700 border-b-2 border-primary-700 bg-primary-50/50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50' }}">
+                Pengajuan Kembali
             </a>
             <a href="{{ route('home.borrowingHistory', ['status' => 'rejected']) }}" 
                class="group flex items-center gap-2 px-6 py-4 font-semibold whitespace-nowrap transition-all duration-200 {{ request('status') == 'rejected' ? 'text-primary-700 border-b-2 border-primary-700 bg-primary-50/50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50' }}">
-                <svg class="w-5 h-5 {{ request('status') == 'rejected' ? 'text-primary-700' : 'text-gray-400 group-hover:text-gray-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
                 Ditolak
             </a>
             <a href="{{ route('home.borrowingHistory', ['status' => 'returned']) }}" 
                class="group flex items-center gap-2 px-6 py-4 font-semibold whitespace-nowrap transition-all duration-200 {{ request('status') == 'returned' ? 'text-primary-700 border-b-2 border-primary-700 bg-primary-50/50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50' }}">
-                <svg class="w-5 h-5 {{ request('status') == 'returned' ? 'text-primary-700' : 'text-gray-400 group-hover:text-gray-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/>
-                </svg>
                 Dikembalikan
             </a>
         </div>
@@ -163,7 +156,7 @@
                                     </span>
                                 </div>
 
-                                @if($borrowing->status == 'approved' && $borrowing->isLate())
+                                @if(in_array($borrowing->status, ['borrowed', 'return_requested']) && $borrowing->isLate())
                                     <div class="mt-3">
                                         <span class="inline-flex items-center px-2.5 py-1 text-xs font-semibold bg-gradient-to-r from-red-100 to-rose-100 text-red-700 rounded-full shadow-sm">
                                             <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -176,7 +169,7 @@
                             </div>
                         </div>
 
-                        <!-- Status Badge -->
+                        <!-- Status Badge & Actions -->
                         <div class="flex flex-col items-end gap-2">
                             @if($borrowing->status == 'pending')
                                 <span class="inline-flex items-center px-3.5 py-1.5 text-sm font-semibold rounded-full bg-gradient-to-r from-yellow-100 to-amber-100 text-yellow-800 shadow-sm">
@@ -185,8 +178,9 @@
                                     </svg>
                                     Menunggu Persetujuan
                                 </span>
+
                             @elseif($borrowing->status == 'approved')
-                                <span class="inline-flex items-center px-3.5 py-1.5 text-sm font-semibold rounded-full bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 shadow-sm">
+                                <span class="inline-flex items-center px-3.5 py-1.5 text-sm font-semibold rounded-full bg-gradient-to-r from-emerald-100 to-green-100 text-emerald-800 shadow-sm">
                                     <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                     </svg>
@@ -197,21 +191,69 @@
                                         Disetujui: {{ $borrowing->approved_at->format('d M Y H:i') }}
                                     </span>
                                 @endif
-                                <div class="mt-2 px-3 py-2 bg-blue-50 rounded-lg border border-blue-200">
-                                    <p class="text-xs text-blue-700 font-medium flex items-center gap-1.5">
+                                <div class="mt-2 px-3 py-2 bg-emerald-50 rounded-lg border border-emerald-200">
+                                    <p class="text-xs text-emerald-700 font-medium flex items-center gap-1.5">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                         </svg>
-                                        Datang ke perpustakaan untuk mengambil buku
+                                        Silakan datang ke perpustakaan untuk mengambil buku
                                     </p>
                                 </div>
+                                <!-- Download Bukti Peminjaman -->
                                 <a href="{{ route('home.borrowingProof.download', $borrowing->id) }}" 
-                                   class="mt-3 inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary-600 to-purple-600 text-white text-sm font-semibold rounded-lg hover:from-primary-700 hover:to-purple-700 transition-all duration-300 shadow-md shadow-primary-500/30 hover:shadow-lg hover:shadow-primary-500/50 hover:scale-105">
+                                   class="mt-2 inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary-600 to-emerald-600 text-white text-sm font-semibold rounded-lg hover:from-primary-700 hover:to-emerald-700 transition-all duration-300 shadow-md shadow-primary-500/30 hover:shadow-lg hover:shadow-primary-500/50 hover:scale-105">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                                     </svg>
                                     Download Bukti Peminjaman
                                 </a>
+
+                            @elseif($borrowing->status == 'borrowed')
+                                <span class="inline-flex items-center px-3.5 py-1.5 text-sm font-semibold rounded-full bg-gradient-to-r from-indigo-100 to-blue-100 text-indigo-800 shadow-sm">
+                                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                    </svg>
+                                    Sedang Dipinjam
+                                </span>
+                                @if($borrowing->borrowed_at)
+                                    <span class="text-xs text-gray-500">
+                                        Diambil: {{ $borrowing->borrowed_at->format('d M Y H:i') }}
+                                    </span>
+                                @endif
+                                <!-- Request Return Button -->
+                                <form action="{{ route('home.requestReturn', $borrowing->id) }}" method="POST" class="mt-2">
+                                    @csrf
+                                    <button type="submit"
+                                            onclick="event.preventDefault(); Swal.fire({ title: 'Ajukan Pengembalian?', text: 'Ajukan pengembalian buku ini? Pastikan Anda sudah siap mengembalikan buku ke perpustakaan.', icon: 'question', showCancelButton: true, confirmButtonColor: '#8b5cf6', cancelButtonColor: '#6b7280', confirmButtonText: 'Ya, Ajukan', cancelButtonText: 'Batal' }).then((result) => { if (result.isConfirmed) { this.closest('form').submit(); } });"
+                                            class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-violet-600 text-white text-sm font-semibold rounded-lg hover:from-purple-700 hover:to-violet-700 transition-all duration-300 shadow-md shadow-purple-500/30 hover:shadow-lg hover:shadow-purple-500/50 hover:scale-105">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/>
+                                        </svg>
+                                        Ajukan Pengembalian
+                                    </button>
+                                </form>
+
+                            @elseif($borrowing->status == 'return_requested')
+                                <span class="inline-flex items-center px-3.5 py-1.5 text-sm font-semibold rounded-full bg-gradient-to-r from-purple-100 to-violet-100 text-purple-800 shadow-sm">
+                                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/>
+                                    </svg>
+                                    Menunggu Konfirmasi Pengembalian
+                                </span>
+                                @if($borrowing->return_requested_at)
+                                    <span class="text-xs text-gray-500">
+                                        Diajukan: {{ $borrowing->return_requested_at->format('d M Y H:i') }}
+                                    </span>
+                                @endif
+                                <div class="mt-2 px-3 py-2 bg-purple-50 rounded-lg border border-purple-200">
+                                    <p class="text-xs text-purple-700 font-medium flex items-center gap-1.5">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                        Kembalikan buku ke perpustakaan dan tunggu konfirmasi admin
+                                    </p>
+                                </div>
+
                             @elseif($borrowing->status == 'rejected')
                                 <span class="inline-flex items-center px-3.5 py-1.5 text-sm font-semibold rounded-full bg-gradient-to-r from-red-100 to-rose-100 text-red-800 shadow-sm">
                                     <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -219,10 +261,11 @@
                                     </svg>
                                     Ditolak
                                 </span>
+
                             @elseif($borrowing->status == 'returned')
                                 <span class="inline-flex items-center px-3.5 py-1.5 text-sm font-semibold rounded-full bg-gradient-to-r from-blue-100 to-cyan-100 text-blue-800 shadow-sm">
                                     <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                     </svg>
                                     Dikembalikan
                                 </span>

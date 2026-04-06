@@ -43,6 +43,8 @@ class ReportController extends Controller
             'total' => $borrowings->count(),
             'pending' => $borrowings->where('status', 'pending')->count(),
             'approved' => $borrowings->where('status', 'approved')->count(),
+            'borrowed' => $borrowings->where('status', 'borrowed')->count(),
+            'return_requested' => $borrowings->where('status', 'return_requested')->count(),
             'returned' => $borrowings->where('status', 'returned')->count(),
             'rejected' => $borrowings->where('status', 'rejected')->count(),
         ];
@@ -86,6 +88,8 @@ class ReportController extends Controller
             'total' => $borrowings->count(),
             'pending' => $borrowings->where('status', 'pending')->count(),
             'approved' => $borrowings->where('status', 'approved')->count(),
+            'borrowed' => $borrowings->where('status', 'borrowed')->count(),
+            'return_requested' => $borrowings->where('status', 'return_requested')->count(),
             'returned' => $borrowings->where('status', 'returned')->count(),
             'rejected' => $borrowings->where('status', 'rejected')->count(),
         ];
@@ -122,7 +126,7 @@ class ReportController extends Controller
             'total_books' => $books->count(),
             'total_stock' => $books->sum('stock'),
             'total_borrowed' => $books->sum(function ($book) {
-                return $book->borrowings()->whereIn('status', ['approved', 'pending'])->count();
+                return $book->borrowings()->whereIn('status', ['approved', 'borrowed', 'return_requested', 'pending'])->count();
             }),
         ];
 
@@ -170,7 +174,7 @@ class ReportController extends Controller
             'total_books' => $books->count(),
             'total_stock' => $books->sum('stock'),
             'total_borrowed' => $books->sum(function ($book) {
-                return $book->borrowings()->whereIn('status', ['approved', 'pending'])->count();
+                return $book->borrowings()->whereIn('status', ['approved', 'borrowed', 'return_requested', 'pending'])->count();
             }),
         ];
 
@@ -209,7 +213,7 @@ class ReportController extends Controller
         // Add borrowing count to each user
         $users->each(function ($user) {
             $user->borrowing_count = $user->borrowings()->count();
-            $user->active_borrowing_count = $user->borrowings()->whereIn('status', ['approved', 'pending'])->count();
+            $user->active_borrowing_count = $user->borrowings()->whereIn('status', ['approved', 'borrowed', 'return_requested', 'pending'])->count();
         });
 
         // Calculate statistics
@@ -258,7 +262,7 @@ class ReportController extends Controller
         // Add borrowing count to each user
         $users->each(function ($user) {
             $user->borrowing_count = $user->borrowings()->count();
-            $user->active_borrowing_count = $user->borrowings()->whereIn('status', ['approved', 'pending'])->count();
+            $user->active_borrowing_count = $user->borrowings()->whereIn('status', ['approved', 'borrowed', 'return_requested', 'pending'])->count();
         });
 
         // Calculate statistics
@@ -327,6 +331,8 @@ class ReportController extends Controller
             'total_borrowings' => $borrowings->count(),
             'pending' => $borrowings->where('status', 'pending')->count(),
             'approved' => $borrowings->where('status', 'approved')->count(),
+            'borrowed' => $borrowings->where('status', 'borrowed')->count(),
+            'return_requested' => $borrowings->where('status', 'return_requested')->count(),
             'returned' => $borrowings->where('status', 'returned')->count(),
             'late_returns' => $borrowings->filter(function ($b) {
                 return $b->isLate();
@@ -420,6 +426,8 @@ class ReportController extends Controller
             'total_borrowings' => $borrowings->count(),
             'pending' => $borrowings->where('status', 'pending')->count(),
             'approved' => $borrowings->where('status', 'approved')->count(),
+            'borrowed' => $borrowings->where('status', 'borrowed')->count(),
+            'return_requested' => $borrowings->where('status', 'return_requested')->count(),
             'returned' => $borrowings->where('status', 'returned')->count(),
             'late_returns' => $borrowings->filter(function ($b) {
                 return $b->isLate();

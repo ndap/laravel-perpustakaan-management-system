@@ -28,6 +28,8 @@ class BorrowingController extends Controller
             'all' => borrowing::count(),
             'pending' => borrowing::where('status', 'pending')->count(),
             'approved' => borrowing::where('status', 'approved')->count(),
+            'borrowed' => borrowing::where('status', 'borrowed')->count(),
+            'return_requested' => borrowing::where('status', 'return_requested')->count(),
             'rejected' => borrowing::where('status', 'rejected')->count(),
             'returned' => borrowing::where('status', 'returned')->count(),
         ];
@@ -36,7 +38,7 @@ class BorrowingController extends Controller
     }
 
     /**
-     * Approve a pending borrowing request
+     * Approve a pending borrowing request (Step 1: Admin approves, user must pick up book)
      */
     public function approve($id)
     {
@@ -52,16 +54,41 @@ class BorrowingController extends Controller
             return redirect()->back()->with('error', 'Stok buku tidak tersedia. Tidak dapat menyetujui peminjaman.');
         }
 
-        // Update borrowing status
+        // Update borrowing status to approved (stock NOT decremented yet)
         $borrowing->status = 'approved';
         $borrowing->approved_at = now();
         $borrowing->approved_by = Auth::id();
         $borrowing->save();
 
-        // Decrement book stock
+        return redirect()->back()->with('success', 'Peminjaman berhasil disetujui! Menunggu user mengambil buku di perpustakaan.');
+    }
+
+    /**
+     * Confirm book pickup (Step 2: Admin confirms user has picked up the book)
+     */
+    public function confirmPickup($id)
+    {
+        $borrowing = borrowing::with('book')->findOrFail($id);
+
+        // Validate that the request is approved (awaiting pickup)
+        if ($borrowing->status !== 'approved') {
+            return redirect()->back()->with('error', 'Hanya peminjaman yang sudah disetujui yang dapat dikonfirmasi pengambilannya.');
+        }
+
+        // Check if book stock is available
+        if (!$borrowing->book->isAvailable()) {
+            return redirect()->back()->with('error', 'Stok buku tidak tersedia.');
+        }
+
+        // Update borrowing status to borrowed
+        $borrowing->status = 'borrowed';
+        $borrowing->borrowed_at = now();
+        $borrowing->save();
+
+        // Decrement book stock (stock decreases when book is physically taken)
         $borrowing->book->decrementStock();
 
-        return redirect()->back()->with('success', 'Peminjaman berhasil disetujui! Stok buku telah dikurangi.');
+        return redirect()->back()->with('success', 'Pengambilan buku dikonfirmasi! Stok buku telah dikurangi.');
     }
 
     /**
@@ -84,15 +111,15 @@ class BorrowingController extends Controller
     }
 
     /**
-     * Confirm book return
+     * Confirm book return (Admin confirms after user requested return)
      */
     public function confirmReturn($id)
     {
         $borrowing = borrowing::with('book')->findOrFail($id);
 
-        // Validate that the request is approved
-        if ($borrowing->status !== 'approved') {
-            return redirect()->back()->with('error', 'Hanya peminjaman yang disetujui yang dapat dikonfirmasi pengembaliannya.');
+        // Validate that the user has requested return
+        if ($borrowing->status !== 'return_requested') {
+            return redirect()->back()->with('error', 'Hanya peminjaman yang sudah diajukan pengembalian oleh user yang dapat dikonfirmasi.');
         }
 
         // Update borrowing status

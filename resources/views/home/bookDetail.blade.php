@@ -264,7 +264,21 @@
         <div class="p-6">
             <!-- Review Form (if user hasn't reviewed yet) -->
             @if(auth()->user()->role === 'user')
-                @if(!$userHasReviewed)
+                @if(!$userHasBorrowed)
+                    <div class="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-xl flex items-center gap-3">
+                        <svg class="w-5 h-5 text-amber-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                        </svg>
+                        <span class="text-amber-700 font-medium">Anda hanya dapat memberikan ulasan setelah meminjam buku ini.</span>
+                    </div>
+                @elseif($userHasReviewed)
+                    <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-xl flex items-center gap-3">
+                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span class="text-blue-700 font-medium">Anda sudah memberikan ulasan untuk buku ini</span>
+                    </div>
+                @else
                     <div class="mb-8 bg-gradient-to-br from-primary-50 to-emerald-50 rounded-xl p-6 border border-primary-100">
                         <h3 class="text-lg font-bold text-gray-900 mb-4">Berikan Ulasan Anda</h3>
                         
@@ -328,13 +342,6 @@
                                 Kirim Ulasan
                             </button>
                         </form>
-                    </div>
-                @else
-                    <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-xl flex items-center gap-3">
-                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        <span class="text-blue-700 font-medium">Anda sudah memberikan ulasan untuk buku ini</span>
                     </div>
                 @endif
             @endif

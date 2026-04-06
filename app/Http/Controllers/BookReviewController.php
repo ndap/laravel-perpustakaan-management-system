@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\book_review;
 use App\Models\book;
+use App\Models\borrowing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,6 +15,17 @@ class BookReviewController extends Controller
      */
     public function store(Request $request, book $book)
     {
+        // Check if user has borrowed this book (approved or returned)
+        $hasBorrowed = borrowing::where('user_id', Auth::id())
+            ->where('book_id', $book->id)
+            ->whereIn('status', ['approved', 'borrowed', 'return_requested', 'returned'])
+            ->exists();
+
+        if (!$hasBorrowed) {
+            return redirect()->route('home.bookDetail', $book)
+                ->with('error', 'Anda hanya dapat memberikan ulasan untuk buku yang pernah Anda pinjam.');
+        }
+
         // Validate the request
         $validated = $request->validate([
             'rating' => 'required|integer|min:1|max:5',

@@ -21,7 +21,7 @@ class DashboardController extends Controller
         $totalBooks = book::count();
         $totalUsers = User::where('role', 'user')->count();
         $totalCategories = book_category::count();
-        $activeBorrowings = borrowing::where('status', 'borrowed')->count();
+        $activeBorrowings = borrowing::whereIn('status', ['borrowed', 'return_requested'])->count();
 
         // Monthly Statistics
         $startOfMonth = Carbon::now()->startOfMonth();
@@ -30,8 +30,8 @@ class DashboardController extends Controller
             ->where('created_at', '>=', $startOfMonth)
             ->count();
 
-        // Overdue Borrowings (borrowed but return_date < today)
-        $overdueBorrowings = borrowing::where('status', 'borrowed')
+        // Overdue Borrowings (borrowed/return_requested but return_date < today)
+        $overdueBorrowings = borrowing::whereIn('status', ['borrowed', 'return_requested'])
             ->whereNotNull('return_date')
             ->where('return_date', '<', Carbon::today())
             ->count();
@@ -50,9 +50,24 @@ class DashboardController extends Controller
                 if ($status === 'returned') {
                     $statusLabel = 'Dikembalikan';
                     $statusClass = 'bg-green-100 text-green-800';
+                } elseif ($status === 'pending') {
+                    $statusLabel = 'Pending';
+                    $statusClass = 'bg-yellow-100 text-yellow-800';
+                } elseif ($status === 'approved') {
+                    $statusLabel = 'Disetujui';
+                    $statusClass = 'bg-emerald-100 text-emerald-800';
+                } elseif ($status === 'rejected') {
+                    $statusLabel = 'Ditolak';
+                    $statusClass = 'bg-red-100 text-red-800';
+                } elseif ($status === 'return_requested') {
+                    $statusLabel = 'Pengajuan Kembali';
+                    $statusClass = 'bg-purple-100 text-purple-800';
                 } elseif ($status === 'borrowed' && $borrow->return_date && Carbon::parse($borrow->return_date)->lt(Carbon::today())) {
                     $statusLabel = 'Terlambat';
                     $statusClass = 'bg-red-100 text-red-800';
+                } elseif ($status === 'borrowed') {
+                    $statusLabel = 'Dipinjam';
+                    $statusClass = 'bg-blue-100 text-blue-800';
                 }
 
                 return [

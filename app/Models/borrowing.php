@@ -15,7 +15,9 @@ class borrowing extends Model
         'status',
         'approved_at',
         'approved_by',
+        'borrowed_at',
         'returned_at',
+        'return_requested_at',
         'confirmed_by',
     ];
 
@@ -48,11 +50,27 @@ class borrowing extends Model
     }
 
     /**
-     * Scope for approved borrowing requests
+     * Scope for approved borrowing requests (awaiting pickup)
      */
     public function scopeApproved($query)
     {
         return $query->where('status', 'approved');
+    }
+
+    /**
+     * Scope for actively borrowed books
+     */
+    public function scopeBorrowed($query)
+    {
+        return $query->where('status', 'borrowed');
+    }
+
+    /**
+     * Scope for return requested
+     */
+    public function scopeReturnRequested($query)
+    {
+        return $query->where('status', 'return_requested');
     }
 
     /**
@@ -64,8 +82,8 @@ class borrowing extends Model
             return $this->returned_at->greaterThan($this->return_date);
         }
 
-        // If not yet returned, check if current date is past return date
-        if ($this->status === 'approved') {
+        // If actively borrowed or return requested, check if current date is past return date
+        if (in_array($this->status, ['borrowed', 'return_requested'])) {
             return now()->greaterThan($this->return_date);
         }
 
@@ -81,7 +99,9 @@ class borrowing extends Model
             'borrow_date' => 'date',
             'return_date' => 'date',
             'approved_at' => 'datetime',
+            'borrowed_at' => 'datetime',
             'returned_at' => 'datetime',
+            'return_requested_at' => 'datetime',
         ];
     }
 }

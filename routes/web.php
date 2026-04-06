@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/borrowing-proof/{id}/download', [HomeController::class, 'downloadBorrowingProof'])->name('home.borrowingProof.download');
         Route::get('/book/{book}/borrow', [HomeController::class, 'borrowingForm'])->name('home.borrowingForm');
         Route::post('/book/{book}/borrow', [HomeController::class, 'storeBorrowing'])->name('home.storeBorrowing');
+        Route::post('/borrowing/{borrowing}/request-return', [HomeController::class, 'requestReturn'])->name('home.requestReturn');
 
         Route::post('/book/{book}/bookmark/toggle', [BookmarkController::class, 'toggle'])->name('bookmark.toggle');
         Route::delete('/bookmarks/{bookmark}', [BookmarkController::class, 'destroy'])->name('bookmark.destroy');
@@ -77,6 +78,7 @@ Route::middleware(['auth', 'isAdmin', 'verified'])->prefix('admin')->group(funct
     // Borrowing Management Routes
     Route::get('/borrowings', [BorrowingController::class, 'index'])->name('admin.borrowings');
     Route::post('/borrowings/{borrowing}/approve', [BorrowingController::class, 'approve'])->name('borrowing.approve');
+    Route::post('/borrowings/{borrowing}/confirm-pickup', [BorrowingController::class, 'confirmPickup'])->name('borrowing.confirmPickup');
     Route::post('/borrowings/{borrowing}/reject', [BorrowingController::class, 'reject'])->name('borrowing.reject');
     Route::post('/borrowings/{borrowing}/confirm-return', [BorrowingController::class, 'confirmReturn'])->name('borrowing.confirmReturn');
 

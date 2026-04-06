@@ -145,11 +145,6 @@
             <p>Telp: 089682949101 | Email: layanan@bukuhub.id</p>
         </div>
 
-        <div class="document-title">
-            <h2>BUKTI PEMINJAMAN BUKU</h2>
-            <p>Nomor: LIB/{{ date('Y') }}/{{ str_pad($borrowing->id, 6, '0', STR_PAD_LEFT) }}</p>
-        </div>
-
         <p style="margin-bottom: 20px;">Berdasarkan data sistem perpustakaan, berikut adalah rincian transaksi peminjaman buku yang telah disetujui:</p>
 
         <div class="section-header">I. DATA PEMINJAM</div>
